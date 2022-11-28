@@ -9,12 +9,19 @@ import { BrowserRouter, Route, Switch } from "react-router-dom";
 import AdminPageCreate from "./pages/Admin/CreateUser";
 import AllEmployees from "./pages/Admin/AllEmployees";
 import AllOrganizationEndorser from "./pages/Admin/AllOrganizationEndorser";
+import EmployeePage from "./pages/Employee/Employee";
+import UpdateProfile from "./pages/Employee/UpdateProfile";
+import Organization from "./pages/OrganizationEndorser/Organization";
+import EndorseSkill from "./pages/OrganizationEndorser/EndorseSkill";
+import Endorse from "./pages/OrganizationEndorser/EndorseSection";
 import Navbar from "./components/Navbar";
 import GetEmployee from "./pages/GetRoutes/GetEmployee";
 import GetOrg from "./pages/GetRoutes/GetOrg";
 import NoRole from "./pages/NoRole/NoRole";
 import Notifications from "./pages/NoRole/Notifications";
 import NotificationsAdmin from "./pages/Admin/Notifications";
+import NotificationsEmployee from "./pages/Employee/Notifications";
+import NotificationsOrg from "./pages/OrganizationEndorser/Notifications";
 import LoadComp from "./components/LoadComp";
 
 function App() {
@@ -67,7 +74,9 @@ function App() {
       setloadcomp(false);
     };
     func();
-    return () => { };
+    return () => {
+      //
+    };
   }, []);
 
   const adminRoutes = () => {
@@ -85,6 +94,27 @@ function App() {
     );
   };
 
+  const employeeRoutes = () => {
+    return (
+      <Switch>
+        <Route path="/" exact component={EmployeePage} />
+        <Route path="/update-profile" exact component={UpdateProfile} />
+        <Route path="/notifications" exact component={NotificationsEmployee} />
+      </Switch>
+    );
+  };
+
+  const isOrganizationEndorserRoutes = () => {
+    return (
+      <Switch>
+        <Route path="/" exact component={Organization} />
+        <Route path="/endorse-skill" exact component={EndorseSkill} />
+        <Route path="/endorse-section" exact component={Endorse} />
+        <Route path="/notifications" exact component={NotificationsOrg} />
+      </Switch>
+    );
+  };
+
   const noRoleRoutes = () => {
     return (
       <Switch>
@@ -96,6 +126,8 @@ function App() {
 
   const renderRoutes = () => {
     if (isOwner) return adminRoutes();
+    else if (isEmployee) return employeeRoutes();
+    else if (isOrganizationEndorser) return isOrganizationEndorserRoutes();
     else return noRoleRoutes();
   };
 

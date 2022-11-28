@@ -5,6 +5,7 @@ import { Menu, Segment, Image, Label, Icon } from "semantic-ui-react";
 import Admin from "../abis/Admin.json";
 import { Link } from "react-router-dom";
 import SearchBar from "./SearchBar";
+import GenererateQR from "./GenererateQR";
 
 class Navbar extends Component {
   state = { activeItem: "home", role: -1, account: "", showQr: false };
@@ -51,6 +52,10 @@ class Navbar extends Component {
 
     return (
       <>
+        <GenererateQR
+          isOpen={this.state.showQr}
+          closeQRModal={this.closeQRModal}
+        />
         <Segment
           inverted
           style={{
@@ -214,6 +219,12 @@ class Navbar extends Component {
                   <small>{this.state.account}</small>
                 </em>
                 &nbsp;&nbsp;&nbsp;
+                <Icon
+                  name="qrcode"
+                  size="large"
+                  style={{ color: "white", cursor: "pointer" }}
+                  onClick={() => this.setState({ showQr: true })}
+                />
               </div>
             </Menu.Item>
           </Menu>
