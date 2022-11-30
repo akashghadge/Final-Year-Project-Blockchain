@@ -54,7 +54,7 @@ export default class Endorse extends Component {
         employeeContractAddress
       );
       try {
-        if (section === 1) {
+        if (section === 2) {
           await EmployeeContract?.methods
             ?.endorseWorkExp()
             .send({ from: accounts[0] });
@@ -93,14 +93,14 @@ export default class Endorse extends Component {
       value: "0",
     },
     {
-      key: "1",
+      key: "2",
       text: "Endorse Work Experience",
-      value: "1",
+      value: "2",
     },
     {
-      key: "2",
+      key: "3",
       text: "Endorse Certification",
-      value: "2",
+      value: "3",
     },
   ];
 
@@ -156,7 +156,7 @@ export default class Endorse extends Component {
                       onChange={this.handleDropdownSelect}
                     />
                   </Form.Field>
-                  {this.state.section === "2" && (
+                  {this.state.section === "3" && (
                     <Form.Field className="form-inputs">
                       <input
                         id="certification_name"

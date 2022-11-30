@@ -70,11 +70,7 @@ class GetInfoModal extends Component {
           Employee.abi,
           employeeContractAddress
         );
-        if (section === 1) {
-          await EmployeeContract.methods
-            ?.endorseEducation()
-            .send({ from: accounts[0] });
-        } else if (section === 2) {
+        if (section === 2) {
           await EmployeeContract?.methods
             ?.endorseCertification(info.name)
             .send({ from: accounts[0] });
@@ -148,78 +144,78 @@ class GetInfoModal extends Component {
                 )}
                 {this.props.info?.req ===
                   "Certification Endorsement Request" && (
-                  <Table.Body>
-                    <Table.Row>
-                      <Table.Cell>
-                        <p style={{ fontWeight: "700" }}>Name</p>
-                      </Table.Cell>
-                      <Table.Cell>
-                        <p>{this.props.info?.name}</p>
-                      </Table.Cell>
-                    </Table.Row>
-                    <Table.Row>
-                      <Table.Cell>
-                        <p style={{ fontWeight: "700" }}>Organization</p>
-                      </Table.Cell>
-                      <Table.Cell>
-                        <p>{this.props.info?.organization}</p>
-                      </Table.Cell>
-                    </Table.Row>
-                    <Table.Row>
-                      <Table.Cell>
-                        <p style={{ fontWeight: "700" }}>Score</p>
-                      </Table.Cell>
-                      <Table.Cell>
-                        <p>{this.props.info?.score}</p>
-                      </Table.Cell>
-                    </Table.Row>
-                  </Table.Body>
-                )}
+                    <Table.Body>
+                      <Table.Row>
+                        <Table.Cell>
+                          <p style={{ fontWeight: "700" }}>Name</p>
+                        </Table.Cell>
+                        <Table.Cell>
+                          <p>{this.props.info?.name}</p>
+                        </Table.Cell>
+                      </Table.Row>
+                      <Table.Row>
+                        <Table.Cell>
+                          <p style={{ fontWeight: "700" }}>Organization</p>
+                        </Table.Cell>
+                        <Table.Cell>
+                          <p>{this.props.info?.organization}</p>
+                        </Table.Cell>
+                      </Table.Row>
+                      <Table.Row>
+                        <Table.Cell>
+                          <p style={{ fontWeight: "700" }}>Score</p>
+                        </Table.Cell>
+                        <Table.Cell>
+                          <p>{this.props.info?.score}</p>
+                        </Table.Cell>
+                      </Table.Row>
+                    </Table.Body>
+                  )}
                 {this.props.info?.req ===
                   "Work Experience Endorsement Request" && (
-                  <Table.Body>
-                    <Table.Row>
-                      <Table.Cell>
-                        <p style={{ fontWeight: "700" }}>Role</p>
-                      </Table.Cell>
-                      <Table.Cell>
-                        <p>{this.props.info?.role}</p>
-                      </Table.Cell>
-                    </Table.Row>
-                    <Table.Row>
-                      <Table.Cell>
-                        <p style={{ fontWeight: "700" }}>Organization</p>
-                      </Table.Cell>
-                      <Table.Cell>
-                        <p>{this.props.info?.organization}</p>
-                      </Table.Cell>
-                    </Table.Row>
-                    <Table.Row>
-                      <Table.Cell>
-                        <p style={{ fontWeight: "700" }}>Description</p>
-                      </Table.Cell>
-                      <Table.Cell>
-                        <p>{this.props.info?.description}</p>
-                      </Table.Cell>
-                    </Table.Row>
-                    <Table.Row>
-                      <Table.Cell>
-                        <p style={{ fontWeight: "700" }}>Start Date</p>
-                      </Table.Cell>
-                      <Table.Cell>
-                        <p>{this.props.info?.startdate}</p>
-                      </Table.Cell>
-                    </Table.Row>
-                    <Table.Row>
-                      <Table.Cell>
-                        <p style={{ fontWeight: "700" }}>Enddate</p>
-                      </Table.Cell>
-                      <Table.Cell>
-                        <p>{this.props.info?.enddate}</p>
-                      </Table.Cell>
-                    </Table.Row>
-                  </Table.Body>
-                )}
+                    <Table.Body>
+                      <Table.Row>
+                        <Table.Cell>
+                          <p style={{ fontWeight: "700" }}>Role</p>
+                        </Table.Cell>
+                        <Table.Cell>
+                          <p>{this.props.info?.role}</p>
+                        </Table.Cell>
+                      </Table.Row>
+                      <Table.Row>
+                        <Table.Cell>
+                          <p style={{ fontWeight: "700" }}>Organization</p>
+                        </Table.Cell>
+                        <Table.Cell>
+                          <p>{this.props.info?.organization}</p>
+                        </Table.Cell>
+                      </Table.Row>
+                      <Table.Row>
+                        <Table.Cell>
+                          <p style={{ fontWeight: "700" }}>Description</p>
+                        </Table.Cell>
+                        <Table.Cell>
+                          <p>{this.props.info?.description}</p>
+                        </Table.Cell>
+                      </Table.Row>
+                      <Table.Row>
+                        <Table.Cell>
+                          <p style={{ fontWeight: "700" }}>Start Date</p>
+                        </Table.Cell>
+                        <Table.Cell>
+                          <p>{this.props.info?.startdate}</p>
+                        </Table.Cell>
+                      </Table.Row>
+                      <Table.Row>
+                        <Table.Cell>
+                          <p style={{ fontWeight: "700" }}>Enddate</p>
+                        </Table.Cell>
+                        <Table.Cell>
+                          <p>{this.props.info?.enddate}</p>
+                        </Table.Cell>
+                      </Table.Row>
+                    </Table.Body>
+                  )}
               </Table>
             </Modal.Content>
             <Modal.Actions className="modal-actions">

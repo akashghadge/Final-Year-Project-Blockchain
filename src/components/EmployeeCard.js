@@ -11,7 +11,6 @@ class EmployeeCard extends Component {
     skills: [],
     certifications: [],
     workExps: [],
-    educations: [],
     colour: ["#b6e498", "#61dafb", "#764abc", "#83cd29", "#00d1b2"],
     readmore: false,
     loadcomp: false,
@@ -26,7 +25,6 @@ class EmployeeCard extends Component {
     this.getSkills(EmployeeContract);
     this.getCertifications(EmployeeContract);
     this.getWorkExp(EmployeeContract);
-    this.getEducation(EmployeeContract);
     const employeedata = await EmployeeContract.methods
       .getEmployeeInfo()
       .call();
@@ -119,31 +117,6 @@ class EmployeeCard extends Component {
     this.setState({ workExps: newworkExps });
   };
 
-  getEducation = async (EmployeeContract) => {
-    const educationCount = await EmployeeContract?.methods
-      ?.getEducationCount()
-      .call();
-    const educations = await Promise.all(
-      Array(parseInt(educationCount))
-        .fill()
-        .map((ele, index) =>
-          EmployeeContract?.methods?.getEducationByIndex(index).call()
-        )
-    );
-    var neweducation = [];
-    educations.forEach((certi) => {
-      neweducation.push({
-        institute: certi[0],
-        startdate: certi[1],
-        enddate: certi[2],
-        endorsed: certi[3],
-        description: certi[4],
-      });
-      return;
-    });
-    this.setState({ educations: neweducation });
-  };
-
   toEmployee = () => {
     this.props.history.push(
       `/getemployee/${this.props.employeeContractAddress}`
@@ -196,38 +169,6 @@ class EmployeeCard extends Component {
           <br />
           {this.state.readmore ? (
             <div>
-              <div>
-                <em>Education:</em>
-                <div className="education">
-                  {this.state.educations?.map((education, index) => (
-                    <div
-                      className="education-design"
-                      style={{ color: "#c5c6c7" }}
-                    >
-                      <div>
-                        <p>{education.description}</p>
-                        <small>{education.institute}</small>
-                      </div>
-                      <div>
-                        <small>
-                          <em>
-                            {education.startdate} - {education.enddate}
-                          </em>
-                        </small>
-                        <p
-                          style={{
-                            color: education.endorsed ? "#00d1b2" : "yellow",
-                            opacity: "0.7",
-                          }}
-                        >
-                          {education.endorsed ? "Endorsed" : "Not Yet Endorsed"}
-                        </p>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </div>
-              <br />
               <div>
                 <em>Certifications:</em>
                 <div className="certifications">
