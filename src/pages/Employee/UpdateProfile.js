@@ -11,13 +11,11 @@ import { buildStyles, CircularProgressbar } from "react-circular-progressbar";
 import GetCertificationModal from "../../components/GetCertificationModal";
 import GetWorkExpModal from "../../components/GetWorkExpModal";
 import GetSkillsModal from "../../components/GetSkillsModals";
-import GetEducationModal from "../../components/GetEducationModal";
 import GetEditFieldModal from "../../components/GetEditFieldModal";
 import LoadComp from "../../components/LoadComp";
 import CodeforcesGraph from "../../components/CodeforcesGraph";
 import {
   reqCertiEndorsementFunc,
-  reqEducationEndorsementFunc,
   reqWorkexpEndorsementFunc,
 } from "../../firebase/api";
 
@@ -28,13 +26,11 @@ export default class UpdateProfile extends Component {
     skills: [],
     certifications: [],
     workExps: [],
-    educations: [],
     colour: ["#b6e498", "#61dafb", "#764abc", "#83cd29", "#00d1b2"],
     readmore: false,
     certificationModal: false,
     workexpModal: false,
     skillmodal: false,
-    educationmodal: false,
     editFieldModal: false,
     isDescription: false,
     loadcomp: false,
@@ -60,7 +56,6 @@ export default class UpdateProfile extends Component {
       this.getSkills(EmployeeContract);
       this.getCertifications(EmployeeContract);
       this.getWorkExp(EmployeeContract);
-      this.getEducation(EmployeeContract);
       const employeedata = await EmployeeContract.methods
         .getEmployeeInfo()
         .call();
@@ -169,31 +164,6 @@ export default class UpdateProfile extends Component {
     this.setState({ workExps: newworkExps });
   };
 
-  getEducation = async (EmployeeContract) => {
-    const educationCount = await EmployeeContract?.methods
-      ?.getEducationCount()
-      .call();
-    const educations = await Promise.all(
-      Array(parseInt(educationCount))
-        .fill()
-        .map((ele, index) =>
-          EmployeeContract?.methods?.getEducationByIndex(index).call()
-        )
-    );
-    var neweducation = [];
-    educations.forEach((certi) => {
-      neweducation.push({
-        institute: certi[0],
-        startdate: certi[1],
-        enddate: certi[2],
-        endorsed: certi[3],
-        description: certi[4],
-      });
-      return;
-    });
-    this.setState({ educations: neweducation });
-  };
-
   closeCertificationModal = () => {
     this.setState({ certificationModal: false });
     this.getCertifications(this.state.EmployeeContract);
@@ -208,12 +178,6 @@ export default class UpdateProfile extends Component {
     this.setState({ skillmodal: false });
     this.getSkills(this.state.EmployeeContract);
   };
-
-  closeEducationModal = () => {
-    this.setState({ educationmodal: false });
-    this.getEducation(this.state.EmployeeContract);
-  };
-
   closeEditFieldModal = () => {
     this.setState({ editFieldModal: false });
   };
@@ -266,9 +230,7 @@ export default class UpdateProfile extends Component {
     this.getWorkExp(this.state.EmployeeContract);
   };
 
-  reqEducationEndorsement = async (education) => {
-    reqEducationEndorsementFunc(education);
-  };
+
 
   reqCertiEndorsement = async (certi) => {
     reqCertiEndorsementFunc(certi);
@@ -294,10 +256,6 @@ export default class UpdateProfile extends Component {
         <GetSkillsModal
           isOpen={this.state.skillmodal}
           closeCertificationModal={this.closeSkillModal}
-        />
-        <GetEducationModal
-          isOpen={this.state.educationmodal}
-          closeCertificationModal={this.closeEducationModal}
         />
 
         <GetEditFieldModal
@@ -357,94 +315,7 @@ export default class UpdateProfile extends Component {
               </Card>
               <Card className="employee-des">
                 <Card.Content>
-                  <Card.Header>
-                    <div className="edit-heading">
-                      <span>About</span>
-                      <span
-                        className="add-button"
-                        onClick={(e) =>
-                          this.setState({
-                            editFieldModal: !this.state.editFieldModal,
-                            isDescription: true,
-                          })
-                        }
-                      >
-                        <i class="fas fa-pencil-alt"></i>
-                      </span>
-                    </div>
-                  </Card.Header>
-                  <div>
-                    <p style={{ color: "#c5c6c7" }}>
-                      {this.state.employeedata?.description}
-                    </p>
-                  </div>
-                  <br />
-                  <div>
-                    <span
-                      className="add-button"
-                      onClick={(e) =>
-                        this.setState({
-                          educationmodal: !this.state.educationmodal,
-                        })
-                      }
-                    >
-                      <i class="fas fa-plus"></i>
-                    </span>
-
-                    <Card.Header
-                      style={{ fontSize: "19px", fontWeight: "600" }}
-                    >
-                      Education
-                    </Card.Header>
-                    <br />
-                    <div className="education">
-                      {this.state.educations?.map((education, index) => (
-                        <div className="education-design" key={index}>
-                          <div
-                            style={{ paddingRight: "50px", color: "#c5c6c7" }}
-                          >
-                            <p>{education.description}</p>
-                            <small style={{ wordBreak: "break-word" }}>
-                              {education.institute}
-                            </small>
-                          </div>
-                          <div>
-                            <small style={{ color: "#c5c6c7" }}>
-                              <em>
-                                {education.startdate} - {education.enddate}
-                              </em>
-                            </small>
-                            <p
-                              style={{
-                                color: education.endorsed
-                                  ? "#00d1b2"
-                                  : "yellow",
-                                opacity: "0.7",
-                              }}
-                            >
-                              {education.endorsed ? (
-                                "Endorsed"
-                              ) : (
-                                <div
-                                  className="endorsement-req-button"
-                                  onClick={() =>
-                                    this.reqEducationEndorsement(education)
-                                  }
-                                >
-                                  Request Endorsement
-                                </div>
-                              )}
-                            </p>
-                          </div>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                </Card.Content>
-              </Card>
-              <Card className="employee-des">
-                <Card.Content>
-                  <Card.Header>Competetive Platform Ratings</Card.Header>
+                  <Card.Header>Competitive Platform Ratings</Card.Header>
                   <CodeforcesGraph />
                 </Card.Content>
               </Card>
@@ -515,9 +386,8 @@ export default class UpdateProfile extends Component {
                                 strokeLinecap: "round",
                                 textSize: "12px",
                                 pathTransitionDuration: 1,
-                                pathColor: `rgba(255,255,255, ${
-                                  certi.score / 100
-                                })`,
+                                pathColor: `rgba(255,255,255, ${certi.score / 100
+                                  })`,
                                 textColor: "#c5c6c7",
                                 trailColor: "#393b3fa6",
                                 backgroundColor: "#c5c6c7",

@@ -35,7 +35,7 @@ export default class Endorse extends Component {
       toast.error("Please enter all the fields.");
       return;
     }
-    if (section === "3" && !certification_name) {
+    if (section === "2" && !certification_name) {
       toast.error("Please enter all the fields.");
       return;
     }
@@ -53,13 +53,8 @@ export default class Endorse extends Component {
         Employee.abi,
         employeeContractAddress
       );
-      // console.log(employeeContractAddress, EmployeeContract);
       try {
         if (section === 1) {
-          await EmployeeContract?.methods
-            ?.endorseEducation()
-            .send({ from: accounts[0] });
-        } else if (section === 2) {
           await EmployeeContract?.methods
             ?.endorseWorkExp()
             .send({ from: accounts[0] });
@@ -99,18 +94,13 @@ export default class Endorse extends Component {
     },
     {
       key: "1",
-      text: "Endorse Education",
+      text: "Endorse Work Experience",
       value: "1",
     },
     {
       key: "2",
-      text: "Endorse Work Experience",
-      value: "2",
-    },
-    {
-      key: "3",
       text: "Endorse Certification",
-      value: "3",
+      value: "2",
     },
   ];
 
@@ -166,7 +156,7 @@ export default class Endorse extends Component {
                       onChange={this.handleDropdownSelect}
                     />
                   </Form.Field>
-                  {this.state.section === "3" && (
+                  {this.state.section === "2" && (
                     <Form.Field className="form-inputs">
                       <input
                         id="certification_name"

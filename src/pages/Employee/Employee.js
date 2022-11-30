@@ -17,7 +17,6 @@ export default class EmployeePage extends Component {
     skills: [],
     certifications: [],
     workExps: [],
-    educations: [],
     colour: ["#b6e498", "#61dafb", "#764abc", "#83cd29", "#00d1b2"],
     readmore: false,
     codeforces_res: [],
@@ -42,7 +41,6 @@ export default class EmployeePage extends Component {
       this.getSkills(EmployeeContract);
       this.getCertifications(EmployeeContract);
       this.getWorkExp(EmployeeContract);
-      this.getEducation(EmployeeContract);
       const employeedata = await EmployeeContract.methods
         .getEmployeeInfo()
         .call();
@@ -150,32 +148,6 @@ export default class EmployeePage extends Component {
 
     this.setState({ workExps: newworkExps });
   };
-
-  getEducation = async (EmployeeContract) => {
-    const educationCount = await EmployeeContract?.methods
-      ?.getEducationCount()
-      .call();
-    const educations = await Promise.all(
-      Array(parseInt(educationCount))
-        .fill()
-        .map((ele, index) =>
-          EmployeeContract?.methods?.getEducationByIndex(index).call()
-        )
-    );
-    var neweducation = [];
-    educations.forEach((certi) => {
-      neweducation.push({
-        institute: certi[0],
-        startdate: certi[1],
-        enddate: certi[2],
-        endorsed: certi[3],
-        description: certi[4],
-      });
-      return;
-    });
-    this.setState({ educations: neweducation });
-  };
-
   render() {
     return this.state.loadcomp ? (
       <LoadComp />
@@ -211,63 +183,6 @@ export default class EmployeePage extends Component {
                     <LineChart
                       overallEndorsement={this.state.overallEndorsement}
                     />
-                  </div>
-                </Card.Content>
-              </Card>
-              <Card className="employee-des">
-                <Card.Content>
-                  <Card.Header>About:</Card.Header>
-                  <div>
-                    <p style={{ color: "#c5c6c7" }}>
-                      {this.state.employeedata?.description}
-                    </p>
-                  </div>
-                  <br />
-                  <div>
-                    <Card.Header
-                      style={{ fontSize: "19px", fontWeight: "600" }}
-                    >
-                      Education:
-                    </Card.Header>
-                    <br />
-                    <div className="education">
-                      {this.state.educations?.map((education, index) => (
-                        <div className="education-design" key={index}>
-                          <div
-                            style={{ paddingRight: "50px", color: "#c5c6c7" }}
-                          >
-                            <p>{education.description}</p>
-                            <small
-                              style={{
-                                wordBreak: "break-word",
-                                fontSize: "10px",
-                              }}
-                            >
-                              {education.institute}
-                            </small>
-                          </div>
-                          <div>
-                            <small style={{ color: "#c5c6c7" }}>
-                              <em>
-                                {education.startdate} - {education.enddate}
-                              </em>
-                            </small>
-                            <p
-                              style={{
-                                color: education.endorsed
-                                  ? "#00d1b2"
-                                  : "yellow",
-                                opacity: "0.7",
-                              }}
-                            >
-                              {education.endorsed
-                                ? "Endorsed"
-                                : "Not Yet Endorsed"}
-                            </p>
-                          </div>
-                        </div>
-                      ))}
-                    </div>
                   </div>
                 </Card.Content>
               </Card>
@@ -314,9 +229,8 @@ export default class EmployeePage extends Component {
                                     strokeLinecap: "round",
                                     textSize: "12px",
                                     pathTransitionDuration: 1,
-                                    pathColor: `rgba(255,255,255, ${
-                                      certi.score / 100
-                                    })`,
+                                    pathColor: `rgba(255,255,255, ${certi.score / 100
+                                      })`,
                                     textColor: "#c5c6c7",
                                     trailColor: "#393b3fa6",
                                     backgroundColor: "#c5c6c7",
