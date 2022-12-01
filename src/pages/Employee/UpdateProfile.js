@@ -58,9 +58,7 @@ export default class UpdateProfile extends Component {
       this.getSkills(EmployeeContract);
       this.getCertifications(EmployeeContract);
       this.getWorkExp(EmployeeContract);
-      const cfUsername = await EmployeeContract.methods.getCodeforcesUsername().call();
-      this.setState({ codeforces_username: cfUsername });
-
+      this.getCFRating(EmployeeContract);
       const employeedata = await EmployeeContract.methods
         .getEmployeeInfo()
         .call();
@@ -87,6 +85,10 @@ export default class UpdateProfile extends Component {
     }
     this.setState({ loadcomp: false });
   };
+  getCFRating = async (EmployeeContract) => {
+    const cfUsername = await EmployeeContract.methods.getCodeforcesUsername().call();
+    this.setState({ codeforces_username: cfUsername });
+  }
 
   getSkills = async (EmployeeContract) => {
     const skillCount = await EmployeeContract?.methods?.getSkillCount().call();
@@ -186,8 +188,9 @@ export default class UpdateProfile extends Component {
   closeEditFieldModal = () => {
     this.setState({ editFieldModal: false });
   };
-  closeCodeforcesModal = () => {
+  closeCodeforcesModal = async () => {
     this.setState({ codeforcesModal: false });
+    this.getCFRating(this.state.EmployeeContract);
   };
 
   certificationVisibility = async (name) => {

@@ -68,7 +68,7 @@ function CodeforcesGraph(props) {
     return () => {
       //
     };
-  }, []);
+  }, [props.codeforces_username]);
 
   return (
     <>
