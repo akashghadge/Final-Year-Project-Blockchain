@@ -8,11 +8,23 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background: #0b0c10ea !important;
+  background: #040d21 !important;
   color: #c5c6c7 !important;
 }
 
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
+}
+
+.container{
+margin: 0;
+width: 100%!important;
+}
+
+.menu .item{
+  font-size: 15px;
+}
+.admin,.notifications{
+  margin-top: 120px !important;
 }

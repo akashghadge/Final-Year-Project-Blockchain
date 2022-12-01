@@ -15,6 +15,7 @@ import Organization from "./pages/OrganizationEndorser/Organization";
 import EndorseSkill from "./pages/OrganizationEndorser/EndorseSkill";
 import Endorse from "./pages/OrganizationEndorser/EndorseSection";
 import Navbar from "./components/Navbar";
+import Home from "./components/Home";
 import GetEmployee from "./pages/GetRoutes/GetEmployee";
 import GetOrg from "./pages/GetRoutes/GetOrg";
 import NoRole from "./pages/NoRole/NoRole";
@@ -82,7 +83,8 @@ function App() {
   const adminRoutes = () => {
     return (
       <Switch>
-        <Route path="/" exact component={AllEmployees} />
+        <Route path="/" exact component={Home} />
+        <Route path="/all-employees" exact component={AllEmployees} />
         <Route
           path="/all-organization-endorser"
           exact
@@ -97,7 +99,8 @@ function App() {
   const employeeRoutes = () => {
     return (
       <Switch>
-        <Route path="/" exact component={EmployeePage} />
+        <Route path="/" exact component={Home} />
+        <Route path="/employee-profile" exact component={EmployeePage} />
         <Route path="/update-profile" exact component={UpdateProfile} />
         <Route path="/notifications" exact component={NotificationsEmployee} />
       </Switch>
@@ -107,7 +110,8 @@ function App() {
   const isOrganizationEndorserRoutes = () => {
     return (
       <Switch>
-        <Route path="/" exact component={Organization} />
+        <Route path="/" exact component={Home} />
+        <Route path="/organization" exact component={Organization} />
         <Route path="/endorse-skill" exact component={EndorseSkill} />
         <Route path="/endorse-section" exact component={Endorse} />
         <Route path="/notifications" exact component={NotificationsOrg} />
@@ -118,7 +122,8 @@ function App() {
   const noRoleRoutes = () => {
     return (
       <Switch>
-        <Route path="/" exact component={NoRole} />
+        <Route path="/" exact component={Home} />
+        <Route path="/no-role" exact component={NoRole} />
         <Route path="/notifications" exact component={Notifications} />
       </Switch>
     );
