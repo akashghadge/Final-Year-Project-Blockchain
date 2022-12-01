@@ -8,6 +8,7 @@ contract Employee {
     uint256[] public overallEndorsement;
     uint256 endorsecount;
     string name;
+    string codeforces_username;
 
     constructor(
         address _admin,
@@ -22,6 +23,7 @@ contract Employee {
         description = _description;
         location = _location;
         endorsecount = 0;
+        codeforces_username = "akashghadge";
     }
 
     modifier OnlyEmployee() {
@@ -305,5 +307,18 @@ contract Employee {
 
     function deleteWorkExp(address org) public OnlyEmployee {
         workexpmap[org].visible = false;
+    }
+
+    /********************************************************************Codeforces Section********************************************************************/
+
+    function setCodeforcesUsername(string memory _newUsername)
+        public
+        OnlyEmployee
+    {
+        codeforces_username = _newUsername;
+    }
+
+    function getCodeforcesUsername() public view returns (string memory) {
+        return (codeforces_username);
     }
 }

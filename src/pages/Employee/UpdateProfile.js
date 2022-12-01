@@ -18,7 +18,7 @@ import {
   reqCertiEndorsementFunc,
   reqWorkexpEndorsementFunc,
 } from "../../firebase/api";
-
+import GetCodeforcesModal from "../../components/GetCodeforcesModal"
 export default class UpdateProfile extends Component {
   state = {
     employeedata: {},
@@ -32,9 +32,11 @@ export default class UpdateProfile extends Component {
     workexpModal: false,
     skillmodal: false,
     editFieldModal: false,
+    codeforcesModal: false,
     isDescription: false,
     loadcomp: false,
     EmployeeContract: {},
+    codeforces_username: ""
   };
 
   componentDidMount = async () => {
@@ -56,6 +58,9 @@ export default class UpdateProfile extends Component {
       this.getSkills(EmployeeContract);
       this.getCertifications(EmployeeContract);
       this.getWorkExp(EmployeeContract);
+      const cfUsername = await EmployeeContract.methods.getCodeforcesUsername().call();
+      this.setState({ codeforces_username: cfUsername });
+
       const employeedata = await EmployeeContract.methods
         .getEmployeeInfo()
         .call();
@@ -181,6 +186,9 @@ export default class UpdateProfile extends Component {
   closeEditFieldModal = () => {
     this.setState({ editFieldModal: false });
   };
+  closeCodeforcesModal = () => {
+    this.setState({ codeforcesModal: false });
+  };
 
   certificationVisibility = async (name) => {
     const web3 = window.web3;
@@ -253,6 +261,10 @@ export default class UpdateProfile extends Component {
           isOpen={this.state.workexpModal}
           closeCertificationModal={this.closeWorkExpModal}
         />
+        <GetCodeforcesModal
+          isOpen={this.state.codeforcesModal}
+          closeCodeforcesModal={this.closeCodeforcesModal}
+        />
         <GetSkillsModal
           isOpen={this.state.skillmodal}
           closeCertificationModal={this.closeSkillModal}
@@ -315,8 +327,21 @@ export default class UpdateProfile extends Component {
               </Card>
               <Card className="employee-des">
                 <Card.Content>
+                  <div className="edit-heading">
+                    <span>{this.state.codeforces_username}</span>
+                    <span
+                      className="add-button"
+                      onClick={(e) =>
+                        this.setState({
+                          codeforcesModal: !this.state.codeforcesModal,
+                        })
+                      }
+                    >
+                      <i class="fas fa-pencil-alt"></i>
+                    </span>
+                  </div>
                   <Card.Header>Competitive Platform Ratings</Card.Header>
-                  <CodeforcesGraph />
+                  <CodeforcesGraph codeforces_username={this.state.codeforces_username} />
                 </Card.Content>
               </Card>
             </Grid.Column>

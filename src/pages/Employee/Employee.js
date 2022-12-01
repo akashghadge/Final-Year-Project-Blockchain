@@ -21,6 +21,7 @@ export default class EmployeePage extends Component {
     readmore: false,
     codeforces_res: [],
     loadcomp: false,
+    codeforces_username: "darshanahire"
   };
 
   componentDidMount = async () => {
@@ -41,6 +42,8 @@ export default class EmployeePage extends Component {
       this.getSkills(EmployeeContract);
       this.getCertifications(EmployeeContract);
       this.getWorkExp(EmployeeContract);
+      const cfUsername = await EmployeeContract.methods.getCodeforcesUsername().call();
+      this.setState({ codeforces_username: cfUsername });
       const employeedata = await EmployeeContract.methods
         .getEmployeeInfo()
         .call();
@@ -189,7 +192,7 @@ export default class EmployeePage extends Component {
               <Card className="employee-des">
                 <Card.Content>
                   <Card.Header>Competetive Platform Ratings</Card.Header>
-                  <CodeforcesGraph />
+                  <CodeforcesGraph codeforces_username={this.state.codeforces_username} />
                 </Card.Content>
               </Card>
             </Grid.Column>

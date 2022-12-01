@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Line } from "react-chartjs-2";
 
-function CodeforcesGraph() {
+function CodeforcesGraph(props) {
   const [data, setdata] = useState({});
   const [mxRating, setmxRating] = useState(0);
 
@@ -30,8 +30,9 @@ function CodeforcesGraph() {
   };
 
   useEffect(() => {
+    console.log(props.codeforces_username);
     const fetchdata = async () => {
-      fetch("https://codeforces.com/api/user.rating?handle=Paladin09")
+      fetch(`https://codeforces.com/api/user.rating?handle=${props.codeforces_username}`)
         .then((res) => res.json())
         .then((res) => {
           if (res.status === "OK" && res.result.length > 1) {
