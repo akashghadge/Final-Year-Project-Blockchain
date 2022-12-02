@@ -41,6 +41,6 @@ export default class LineChart extends Component {
     }, 1000);
   };
   render() {
-    return <Line data={this.state.data} options={this.state.options} />;
+    return JSON.stringify(this.state.data) !== JSON.stringify({}) ? <Line data={this.state.data} options={this.state.options} /> :<></>;
   }
 }

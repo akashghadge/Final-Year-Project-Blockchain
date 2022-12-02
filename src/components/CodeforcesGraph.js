@@ -71,6 +71,7 @@ function CodeforcesGraph(props) {
   }, [props.codeforces_username]);
 
   return (
+    JSON.stringify(data) !== JSON.stringify({}) ?
     <>
       <br />
       <p style={{ color: "#c5c6c7" }}>
@@ -83,7 +84,7 @@ function CodeforcesGraph(props) {
       <div>
         <Line data={data} options={options} />
       </div>
-    </>
+    </> : <></>
   );
 }
 

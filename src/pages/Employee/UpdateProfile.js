@@ -255,7 +255,7 @@ export default class UpdateProfile extends Component {
     return this.state.loadcomp ? (
       <LoadComp />
     ) : (
-      <div>
+      <div className="container-xl employeeProfile">
         <GetCertificationModal
           isOpen={this.state.certificationModal}
           closeCertificationModal={this.closeCertificationModal}
