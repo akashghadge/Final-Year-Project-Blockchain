@@ -11,9 +11,9 @@ export default class MetaMaskGuide extends Component {
           alignSelf: "center",
           justifySelf: "center",
           maxWidth: "800px",
-          margin: "auto",
-          marginTop: "100px",
-          color: "black",
+          margin: "100px auto",
+          color: "white",
+          background:"transparent"
         }}
       >
         <Image
@@ -25,11 +25,11 @@ export default class MetaMaskGuide extends Component {
         <h1>Oops!.. Seems like you do not have metamask extension.</h1>
         <h2>Please download it to proceed.</h2>
         <p>
-          After the metamask set-up , create an account on <b>Rinkeby</b> test
+          After the metamask set-up , create an account on <b>Goerli or Sepolia</b> test
           network.
         </p>
         <a href="https://chrome.google.com/webstore/detail/metamask/nkbihfbeogaeaoehlefnkodbefgpgknn?hl=en">
-          <Button color="teal">Download Metamask Extension</Button>
+          <Button color="ui green button">Download Metamask Extension</Button>
         </a>
       </Segment>
     );

@@ -157,7 +157,12 @@ function App() {
           </Container>
         </BrowserRouter>
       ) : (
+      <>
+      <BrowserRouter>
+        <Home/>
         <MetaMaskGuide />
+        </BrowserRouter>
+      </>
       )}
     </div>
   );

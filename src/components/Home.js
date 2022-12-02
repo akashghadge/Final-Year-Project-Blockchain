@@ -1,4 +1,5 @@
 import React from 'react'
+import { Button } from "semantic-ui-react";
 
 function Home() {
   return (
@@ -39,11 +40,9 @@ function Home() {
                     class="f3-mktg col-md-7 col-lg-11 col-xl-10 text-normal text-gray-light-mktg mr-lg-n4 mb-4 position-relative z-2">
                     A Decentralized certification platform using Ethereum BlockChian</p>
 
-                  <form data-turbo="false" class="mx-auto mx-md-0 col-5-max js-signup-form position-relative z-2"
-                    autocomplete="off" action="/signup" accept-charset="UTF-8" method="get">
-                    <button class="btn-mktg width-full width-sm-auto btn-signup-mktg" type="submit"> Login with Metamask
-                    </button>
-                  </form>
+                  <a href="https://chrome.google.com/webstore/detail/metamask/nkbihfbeogaeaoehlefnkodbefgpgknn?hl=en">
+                    <Button color="ui green button">Download Metamask Extension</Button>
+                  </a>
                   <div class="position-lg-absolute bottom-lg-8 left-lg-0 right-lg-0 mt-4 z-1 position-relative">
                     <div class="container-xl mx-auto px-lg-3">
                       <div class="py-4" style={{"border-top": "1px solid rgba(255,255,255,0.1)"}}>
@@ -76,7 +75,7 @@ function Home() {
                 <div class="col-12 col-lg-6 text-center text-md-left position-relative">
                   <div class="home-globe-container home-globe-container-webgl d-flex">
                     <div
-                      class="mx-auto width-full mt-n9 mt-lg-2 home-globe position-relative height-full js-webgl-globe">
+                      class="mx-auto width-full mt-n9 mt-lg-2 home-globe position-relative height-full js-webgl-globe float-md-right" >
                       <video width="916" height="918" loop="true" muted="true" playsinline="true" autoPlay="true"
                         class="home-globe-container-video js-globe-fallback-video float-md-right">
                         <source type="video/mp4"
