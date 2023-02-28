@@ -50,7 +50,7 @@ class GetInfoModal extends Component {
   };
 
   endorseEmployee = async (info) => {
-    const { req } = info;
+    const { req } = info;   
     var section = -1;
     if (req === "Education Endorsement Request") section = 1;
     else if (req === "Certification Endorsement Request") section = 2;
@@ -147,7 +147,7 @@ class GetInfoModal extends Component {
                     <Table.Body>
                       <Table.Row>
                         <Table.Cell>
-                          <p style={{ fontWeight: "700" }}>Name</p>
+                          <p style={{ fontWeight: "700" }}>Certificate Name</p>
                         </Table.Cell>
                         <Table.Cell>
                           <p>{this.props.info?.name}</p>
@@ -166,9 +166,36 @@ class GetInfoModal extends Component {
                           <p style={{ fontWeight: "700" }}>Score</p>
                         </Table.Cell>
                         <Table.Cell>
-                          <p>{this.props.info?.score}</p>
+                          <p>{this.props.info?.isScored ? this.props.info?.score : "Not Scorable Certificate"}</p>
                         </Table.Cell>
                       </Table.Row>
+
+                      <Table.Row>
+                        <Table.Cell>
+                          <p style={{ fontWeight: "700" }}>Certificate Type</p>
+                        </Table.Cell>
+                        <Table.Cell>
+                          <p>{this.props.info?.certificate_type}</p>
+                        </Table.Cell>
+                      </Table.Row>
+                      
+                      <Table.Row>
+                        <Table.Cell>
+                          <p style={{ fontWeight: "700" }}>Soft Copy</p>
+                        </Table.Cell>
+                          <Button
+                            className="button-css"
+                            type="submit"
+                            color="green"
+                            icon="save"
+                            content="View Soft Copy of Cerificate"
+                            // loading={this.state.loading}
+                            onClick={() => {window.open(this.props.info?._certificate_url, '_blank');}}
+                          />
+                      </Table.Row>
+
+
+
                     </Table.Body>
                   )}
                 {this.props.info?.req ===

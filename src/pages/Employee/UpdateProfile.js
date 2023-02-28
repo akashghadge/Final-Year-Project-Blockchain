@@ -136,6 +136,9 @@ export default class UpdateProfile extends Component {
         score: certi[2],
         endorsed: certi[3],
         visible: certi[4],
+        isScored: certi[5],
+        certificate_type: certi[6],
+        _certificate_url : certi[7]
       });
       return;
     });

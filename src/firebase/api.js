@@ -120,7 +120,7 @@ export const reqWorkexpEndorsementFunc = async (workexp) => {
 };
 
 export const reqCertiEndorsementFunc = async (certification) => {
-  const { name, organization, score } = certification;
+  const { name, organization, score, isScored, certificate_type, _certificate_url } = certification;
   const web3 = window.web3;
   const accounts = await web3.eth.getAccounts();
   var key;
@@ -140,6 +140,9 @@ export const reqCertiEndorsementFunc = async (certification) => {
           name,
           organization,
           score,
+          isScored,
+          certificate_type,
+          _certificate_url,
           ethAddress: accounts[0],
         },
         message: "Please endorse!!",
