@@ -155,6 +155,9 @@ contract Employee {
         uint256 score;
         bool endorsed;
         bool visible;
+        bool isScored;
+        string certificate_url;
+        string certificate_type;
     }
 
     mapping(string => certificationInfo) certificationmap;
@@ -163,7 +166,10 @@ contract Employee {
     function addCertification(
         string memory _name,
         address _organization,
-        uint256 _score
+        uint256 _score,
+        bool _isScored,
+        string memory _certificate_url,
+        string memory _certificate_type
     ) public OnlyEmployee {
         certificationInfo memory newcertificationInfo;
         newcertificationInfo.name = _name;
@@ -171,6 +177,9 @@ contract Employee {
         newcertificationInfo.score = _score;
         newcertificationInfo.endorsed = false;
         newcertificationInfo.visible = true;
+        newcertificationInfo.isScored = _isScored;
+        newcertificationInfo.certificate_type = _certificate_type;
+        newcertificationInfo.certificate_url = _certificate_url;
         certificationmap[_name] = newcertificationInfo;
         certifications.push(_name);
     }
@@ -188,15 +197,22 @@ contract Employee {
             address,
             uint256,
             bool,
-            bool
+            bool,
+            bool,
+            string memory,
+            string memory
         )
     {
+        certificationInfo memory c = certificationmap[_name];
         return (
-            certificationmap[_name].name,
-            certificationmap[_name].organization,
-            certificationmap[_name].score,
-            certificationmap[_name].endorsed,
-            certificationmap[_name].visible
+            c.name,
+            c.organization,
+            c.score,
+            c.endorsed,
+            c.visible,
+            c.isScored,
+            c.certificate_type,
+            c.certificate_url
         );
     }
 
@@ -212,7 +228,10 @@ contract Employee {
             address,
             uint256,
             bool,
-            bool
+            bool,
+            bool,
+            string memory,
+            string memory
         )
     {
         return getCertificationByName(certifications[_index]);

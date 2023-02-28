@@ -1,4 +1,3 @@
-import { logDOM } from "@testing-library/react";
 import React, { Component } from "react";
 import { toast } from "react-toastify";
 import { Button, Form, Header, Input, Modal, Checkbox, Label, Dropdown } from "semantic-ui-react";
@@ -7,6 +6,8 @@ import Employee from "../abis/Employee.json";
 import "./Modals.css";
 import ScanQR from "./ScanQR";
 import UploadImageModal from "./UploadImageModal"
+import getCloudinaryUrl from "./Cloudinary";
+import { CircularProgressbarWithChildren } from "react-circular-progressbar";
 export default class GetCertificationModal extends Component {
   state = {
     name: "",
@@ -14,7 +15,7 @@ export default class GetCertificationModal extends Component {
     score: "",
     loading: false,
     scanQR: false,
-    isScoreInput: true,
+    isScoreInput: false,
     imageUploadModal: false,
     certificateImage: null,
     selectCourse: "",
@@ -38,11 +39,19 @@ export default class GetCertificationModal extends Component {
   };
   handleSubmit = async (e) => {
     const { name, organization, score, certificateImage, isScoreInput, selectCourse } = this.state;
-    if (!name || !organization || !(score >= 1 && score <= 100)) {
+    if (!name || !organization || (isScoreInput && !(score >= 1 && score <= 100)) || !certificateImage || !selectCourse) {
       toast.error("Please enter all the fields.");
       return;
     }
     this.setState({ loading: true });
+    let certificate_url = "";
+    try {
+      certificate_url = await getCloudinaryUrl(certificateImage);
+    }
+    catch (err) {
+      toast.error("Image Upload fails");
+      return;
+    }
     e.preventDefault();
     const web3 = window.web3;
     const networkId = await web3.eth.net.getId();
@@ -59,7 +68,7 @@ export default class GetCertificationModal extends Component {
       );
       try {
         await EmployeeContract.methods
-          .addCertification(name, organization, score)
+          .addCertification(name, organization, score, isScoreInput, certificate_url, selectCourse)
           .send({
             from: accounts[0],
           });
@@ -73,7 +82,6 @@ export default class GetCertificationModal extends Component {
     this.setState({ loading: false });
     this.props.closeCertificationModal();
   };
-
   handleChange = (e) => {
     e.preventDefault();
     this.setState({ [e.target.id]: e.target.value });
@@ -165,7 +173,7 @@ export default class GetCertificationModal extends Component {
                     type="number"
                     min="1"
                     max="100"
-                    disabled={this.state.isScoreInput}
+                    disabled={!this.state.isScoreInput}
                     value={this.state.score}
                     onChange={this.handleChange}
                   />
