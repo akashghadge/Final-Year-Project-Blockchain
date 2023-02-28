@@ -1,11 +1,12 @@
+import { logDOM } from "@testing-library/react";
 import React, { Component } from "react";
 import { toast } from "react-toastify";
-import { Button, Form, Header, Input, Modal } from "semantic-ui-react";
+import { Button, Form, Header, Input, Modal, Checkbox, Label, Dropdown } from "semantic-ui-react";
 import Admin from "../abis/Admin.json";
 import Employee from "../abis/Employee.json";
 import "./Modals.css";
 import ScanQR from "./ScanQR";
-
+import UploadImageModal from "./UploadImageModal"
 export default class GetCertificationModal extends Component {
   state = {
     name: "",
@@ -13,10 +14,30 @@ export default class GetCertificationModal extends Component {
     score: "",
     loading: false,
     scanQR: false,
+    isScoreInput: true,
+    imageUploadModal: false,
+    certificateImage: null,
+    selectCourse: "",
+    courseOptions: [
+      {
+        key: "course 1",
+        text: "course 1",
+        value: "course 1"
+      },
+      {
+        key: "course 2",
+        text: "course 2",
+        value: "course 2"
+      },
+      {
+        key: "course 3",
+        text: "course 3",
+        value: "course 3"
+      }
+    ]
   };
-
   handleSubmit = async (e) => {
-    const { name, organization, score } = this.state;
+    const { name, organization, score, certificateImage, isScoreInput, selectCourse } = this.state;
     if (!name || !organization || !(score >= 1 && score <= 100)) {
       toast.error("Please enter all the fields.");
       return;
@@ -61,11 +82,20 @@ export default class GetCertificationModal extends Component {
   closeScanQRModal = () => {
     this.setState({ scanQR: false });
   };
+  closeImageUploadModal = () => {
+    this.setState({ imageUploadModal: false });
+  };
 
   handleAddAddress = (res) => {
     this.setState({ organization: res });
   };
-
+  onChangeCheckbox = (e, d) => {
+    this.setState({ isScoreInput: !this.state.isScoreInput });
+  };
+  uploadSubmitImage = (d) => {
+    this.setState({ certificateImage: d });
+    this.setState({ imageUploadModal: false });
+  }
   render() {
     return (
       <>
@@ -73,6 +103,11 @@ export default class GetCertificationModal extends Component {
           isOpen={this.state.scanQR}
           closeScanQRModal={this.closeScanQRModal}
           handleAddAddress={this.handleAddAddress}
+        />
+        <UploadImageModal
+          isOpen={this.state.imageUploadModal}
+          closeImageModal={this.closeImageUploadModal}
+          uploadSubmitImage={this.uploadSubmitImage}
         />
         <Modal
           as={Form}
@@ -99,6 +134,9 @@ export default class GetCertificationModal extends Component {
                   onChange={this.handleChange}
                 />
               </Form.Field>
+              <Form.Field>
+                <Dropdown onChange={(e, data) => { this.setState({ selectCourse: data.value }) }} value={this.state.selectCourse} placeholder="Select Course Type" fluid selection options={this.state.courseOptions} />
+              </Form.Field>
               <Form.Field className="form-inputs">
                 <Input action>
                   <input
@@ -118,17 +156,30 @@ export default class GetCertificationModal extends Component {
                 </Input>
               </Form.Field>
               <Form.Field className="form-inputs">
-                <input
-                  id="score"
-                  placeholder="Score"
-                  autoComplete="off"
-                  autoCorrect="off"
-                  type="number"
-                  min="1"
-                  max="100"
-                  value={this.state.score}
-                  onChange={this.handleChange}
-                />
+                <Input action>
+                  <input
+                    id="score"
+                    placeholder="Score"
+                    autoComplete="off"
+                    autoCorrect="off"
+                    type="number"
+                    min="1"
+                    max="100"
+                    disabled={this.state.isScoreInput}
+                    value={this.state.score}
+                    onChange={this.handleChange}
+                  />
+                  <div className="d-flex justify-content-center align-items-center">
+                    <Label color={'dark'} className="black" key={'red'}>Enable Score</Label>
+                    <Checkbox toggle onClick={(evt, data) => this.onChangeCheckbox(evt, data)} />
+                  </div>
+                </Input>
+              </Form.Field>
+              <Form.Field className="text-center">
+                <Button type="button"
+                  content="Upload Certificate Image"
+                  icon="image"
+                  onClick={() => this.setState({ imageUploadModal: true })} />
               </Form.Field>
             </Form>
           </Modal.Content>
