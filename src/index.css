@@ -26,5 +26,16 @@ width: 100%!important;
   font-size: 15px;
 }
 .admin,.notifications{
+  border: none !important;
   margin-top: 120px !important;
+  z-index: 100 !important;
+}
+.card{
+  z-index: 100 !important;
+  border: none !important;
+}
+
+.ui.card, .ui.cards>.card{
+  border: none !important;
+  box-shadow: none !important;
 }
