@@ -2,12 +2,21 @@ import React, { useEffect, useState } from "react";
 import "./Modals.css";
 import { Button, Header, Modal } from "semantic-ui-react";
 import "./GenerateCertificate.css"
-import logo from "../logo.svg"
+import GetOrganizationByName from "./GetOrganizationByName";
 function GenerateCertificateModal(props) {
-    useEffect(() => {
-        console.log(props.certificateDetails);
+    const [orgData, setOrgData] = useState({});
+    useEffect(async () => {
+        try {
+            let data = await GetOrganizationByName(props.certificateDetails.organization);
+            setOrgData(data);
+        }
+        catch (err) {
+            console.log(err);
+        }
+
     }, [props])
     return (
+
         <Modal size="large" className="modal-des" open={props?.isOpen}>
             <Modal.Content>
                 <div className="container pm-certificate-container">
@@ -16,10 +25,10 @@ function GenerateCertificateModal(props) {
                     <div className="pm-certificate-border col-xs-12">
                         <div className="row pm-certificate-header">
                             <div className="custom-logo-container">
-                                <img src={logo} height="150px" width="150px"></img>
+                                <img src={orgData.OrgLogo} height="150px" width="150px"></img>
                             </div>
                             <div className="pm-certificate-title cursive col-xs-12 text-center">
-                                <h2>Organization name</h2>
+                                <h2>{orgData.name}</h2>
                             </div>
                         </div>
                         <div className="row pm-certificate-body">

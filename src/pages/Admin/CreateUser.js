@@ -25,7 +25,7 @@ class CreateUser extends Component {
     loading: false,
     errorMessage: "",
     scanQR: false,
-    isOrg:false,
+    isOrg: false,
     imageUploadModal: false,
     orgLogo: null,
   };
@@ -49,8 +49,8 @@ class CreateUser extends Component {
   ];
 
   handleDropdownSelect = (e, data) => {
-    if(data.value === "2") this.setState({isOrg:true});
-    else this.setState({isOrg:false});
+    if (data.value === "2") this.setState({ isOrg: true });
+    else this.setState({ isOrg: false });
     this.setState({ role: data.value });
   };
 
@@ -74,7 +74,7 @@ class CreateUser extends Component {
     e.preventDefault();
 
     let OrgLogo = null;
-    if(this.state.orgLogo != null) { 
+    if (this.state.orgLogo != null) {
       try {
         OrgLogo = await getCloudinaryUrl(this.state.orgLogo);
       }
@@ -105,6 +105,8 @@ class CreateUser extends Component {
         return;
       }
       try {
+        if (OrgLogo === null)
+          OrgLogo = "";
         await admin.methods
           .registerUser(ethAddress, name, location, description, OrgLogo, role)
           .send({ from: accounts[0] });
@@ -212,19 +214,19 @@ class CreateUser extends Component {
                     onChange={this.handleDropdownSelect}
                   />
                 </Form.Field>
-                
+
                 <UploadImageModal
-                isOpen={this.state.imageUploadModal}
-                closeImageModal={this.closeImageUploadModal}
-                uploadSubmitImage={this.uploadSubmitImage}
-              />
-              <Form.Field className="text-center" hidden={!this.state.isOrg}>
-              <br />
-                <Button type="button"
-                  content="Upload Organization Logo"
-                  icon="image"
-                  onClick={() => this.setState({ imageUploadModal: true })} />
-              </Form.Field>
+                  isOpen={this.state.imageUploadModal}
+                  closeImageModal={this.closeImageUploadModal}
+                  uploadSubmitImage={this.uploadSubmitImage}
+                />
+                <Form.Field className="text-center" hidden={!this.state.isOrg}>
+                  <br />
+                  <Button type="button"
+                    content="Upload Organization Logo"
+                    icon="image"
+                    onClick={() => this.setState({ imageUploadModal: true })} />
+                </Form.Field>
                 <br />
                 <Message
                   error
