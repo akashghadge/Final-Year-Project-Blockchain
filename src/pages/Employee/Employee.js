@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { toast } from "react-toastify";
-import { Card, Grid } from "semantic-ui-react";
+import { Card, Grid, Button } from "semantic-ui-react";
 import Admin from "../../abis/Admin.json";
 import Employee from "../../abis/Employee.json";
 import LineChart from "../../components/LineChart";
@@ -9,6 +9,7 @@ import "./Employee.css";
 import { buildStyles, CircularProgressbar } from "react-circular-progressbar";
 import CodeforcesGraph from "../../components/CodeforcesGraph";
 import LoadComp from "../../components/LoadComp";
+import GenerateCertificateModal from "../../components/GenerateCertificateModal";
 
 export default class EmployeePage extends Component {
   state = {
@@ -21,7 +22,9 @@ export default class EmployeePage extends Component {
     readmore: false,
     codeforces_res: [],
     loadcomp: false,
-    codeforces_username: "darshanahire"
+    codeforces_username: "darshanahire",
+    isOpenGenerateCertificateModal: false,
+    selectedCertificate: {}
   };
 
   componentDidMount = async () => {
@@ -117,6 +120,9 @@ export default class EmployeePage extends Component {
         score: certi[2],
         endorsed: certi[3],
         visible: certi[4],
+        isScored: certi[5],
+        certificate_type: certi[6],
+        certificate_url: certi[7],
       });
       return;
     });
@@ -151,163 +157,182 @@ export default class EmployeePage extends Component {
 
     this.setState({ workExps: newworkExps });
   };
+
+  openGenerateCertificateModal = (d) => {
+    this.setState({ selectedCertificate: d });
+    this.setState({ isOpenGenerateCertificateModal: !this.state.isOpenGenerateCertificateModal });
+  }
+  closeGenerateCertificateModal = (d) => {
+    this.setState({ isOpenGenerateCertificateModal: !this.state.isOpenGenerateCertificateModal });
+  }
   render() {
     return this.state.loadcomp ? (
       <LoadComp />
     ) : (
-      <div className="container-xl employeeProfile">
-        <Grid>
-          <Grid.Row>
-            <Grid.Column width={6}>
-              <Card className="personal-info">
-                <Card.Content>
-                  <Card.Header>
-                    {this.state.employeedata?.name}
-                    <small
-                      style={{ wordBreak: "break-word", color: "#c5c6c7" }}
-                    >
-                      {this.state.employeedata?.ethAddress}
-                    </small>
-                  </Card.Header>
-                  <br />
-                  <div>
-                    <p>
-                      <em>Location: </em>
-                      <span style={{ color: "#c5c6c7" }}>
-                        {this.state.employeedata?.location}
-                      </span>
-                    </p>
-                  </div>
-                  <br />
-                  <div>
-                    <p>
-                      <em>Overall Endorsement Rating:</em>
-                    </p>
-                    <LineChart
-                      overallEndorsement={this.state.overallEndorsement}
-                    />
-                  </div>
-                </Card.Content>
-              </Card>
-              <Card className="employee-des">
-                <Card.Content>
-                  <Card.Header>Competetive Platform Ratings</Card.Header>
-                  <CodeforcesGraph codeforces_username={this.state.codeforces_username} />
-                </Card.Content>
-              </Card>
-            </Grid.Column>
-            <Grid.Column width={10}>
-              <Card className="employee-des">
-                <Card.Content>
-                  <Card.Header>Certifications</Card.Header>
-                  <br />
-                  <div>
-                    {this.state.certifications?.map(
-                      (certi, index) =>
-                        certi.visible && (
-                          <div key={index} className="certification-container">
-                            <div style={{ color: "#c5c6c7" }}>
-                              <p>{certi.name}</p>
-                              <small style={{ wordBreak: "break-word" }}>
-                                {certi.organization}
-                              </small>
-                              <p
-                                style={{
-                                  color: certi.endorsed ? "#00d1b2" : "yellow",
-                                  opacity: "0.7",
-                                }}
-                              >
-                                {certi.endorsed
-                                  ? "Endorsed"
-                                  : "Not Yet Endorsed"}
-                              </p>
-                            </div>
-                            <div>
-                              <div style={{ width: "100px" }}>
-                                <CircularProgressbar
-                                  value={certi.score}
-                                  text={`Score - ${certi.score}%`}
-                                  strokeWidth="5"
-                                  styles={buildStyles({
-                                    strokeLinecap: "round",
-                                    textSize: "12px",
-                                    pathTransitionDuration: 1,
-                                    pathColor: `rgba(255,255,255, ${certi.score / 100
-                                      })`,
-                                    textColor: "#c5c6c7",
-                                    trailColor: "#393b3fa6",
-                                    backgroundColor: "#c5c6c7",
-                                  })}
-                                />
+      <>
+        <GenerateCertificateModal
+          isOpen={this.state.isOpenGenerateCertificateModal}
+          closeModal={this.closeGenerateCertificateModal}
+          certificateDetails={this.state.selectedCertificate}
+          employee={this.state.employeedata}
+        />
+        <div className="container-xl employeeProfile">
+          <Grid>
+            <Grid.Row>
+              <Grid.Column width={6}>
+                <Card className="personal-info">
+                  <Card.Content>
+                    <Card.Header>
+                      {this.state.employeedata?.name}
+                      <small
+                        style={{ wordBreak: "break-word", color: "#c5c6c7" }}
+                      >
+                        {this.state.employeedata?.ethAddress}
+                      </small>
+                    </Card.Header>
+                    <br />
+                    <div>
+                      <p>
+                        <em>Location: </em>
+                        <span style={{ color: "#c5c6c7" }}>
+                          {this.state.employeedata?.location}
+                        </span>
+                      </p>
+                    </div>
+                    <br />
+                    <div>
+                      <p>
+                        <em>Overall Endorsement Rating:</em>
+                      </p>
+                      <LineChart
+                        overallEndorsement={this.state.overallEndorsement}
+                      />
+                    </div>
+                  </Card.Content>
+                </Card>
+                <Card className="employee-des">
+                  <Card.Content>
+                    <Card.Header>Competetive Platform Ratings</Card.Header>
+                    <CodeforcesGraph codeforces_username={this.state.codeforces_username} />
+                  </Card.Content>
+                </Card>
+              </Grid.Column>
+              <Grid.Column width={10}>
+                <Card className="employee-des">
+                  <Card.Content>
+                    <Card.Header>Certifications</Card.Header>
+                    <br />
+                    <div>
+                      {this.state.certifications?.map(
+                        (certi, index) =>
+                          certi.visible && (
+                            <div key={index} className="certification-container">
+                              <div style={{ color: "#c5c6c7" }}>
+                                <p>{certi.name}</p>
+                                <small style={{ wordBreak: "break-word" }}>
+                                  {certi.organization}
+                                </small>
+                                <p
+                                  style={{
+                                    color: certi.endorsed ? "#00d1b2" : "yellow",
+                                    opacity: "0.7",
+                                  }}
+                                >
+                                  {certi.endorsed
+                                    ? "Endorsed"
+                                    : "Not Yet Endorsed"}
+                                </p>
+                                <Button onClick={this.openGenerateCertificateModal.bind(this, certi)}>
+                                  Show Certificate
+                                </Button>
+                              </div>
+                              <div>
+                                <div style={{ width: "100px" }}>
+                                  <CircularProgressbar
+                                    value={certi.score}
+                                    text={`Score - ${certi.score}%`}
+                                    strokeWidth="5"
+                                    styles={buildStyles({
+                                      strokeLinecap: "round",
+                                      textSize: "12px",
+                                      pathTransitionDuration: 1,
+                                      pathColor: `rgba(255,255,255, ${certi.score / 100
+                                        })`,
+                                      textColor: "#c5c6c7",
+                                      trailColor: "#393b3fa6",
+                                      backgroundColor: "#c5c6c7",
+                                    })}
+                                  />
+                                </div>
                               </div>
                             </div>
-                          </div>
-                        )
-                    )}
-                  </div>
-                </Card.Content>
-              </Card>
-              <Card className="employee-des">
-                <Card.Content>
-                  <Card.Header>Work Experiences</Card.Header>
-                  <br />
-                  <div className="education">
-                    {this.state.workExps?.map(
-                      (workExp, index) =>
-                        workExp.visible && (
-                          <div className="education-design" key={index}>
-                            <div style={{ color: "#c5c6c7" }}>
-                              <p>{workExp.role}</p>
-                              <small style={{ wordBreak: "break-word" }}>
-                                {workExp.organization}
-                              </small>
+                          )
+                      )}
+                    </div>
+                  </Card.Content>
+                </Card>
+                <Card className="employee-des">
+                  <Card.Content>
+                    <Card.Header>Work Experiences</Card.Header>
+                    <br />
+                    <div className="education">
+                      {this.state.workExps?.map(
+                        (workExp, index) =>
+                          workExp.visible && (
+                            <div className="education-design" key={index}>
+                              <div style={{ color: "#c5c6c7" }}>
+                                <p>{workExp.role}</p>
+                                <small style={{ wordBreak: "break-word" }}>
+                                  {workExp.organization}
+                                </small>
+                              </div>
+                              <div>
+                                <small>
+                                  <em>
+                                    {workExp.startdate} - {workExp.enddate}
+                                  </em>
+                                </small>
+                                <p
+                                  style={{
+                                    color: workExp.endorsed
+                                      ? "#00d1b2"
+                                      : "yellow",
+                                    opacity: "0.7",
+                                  }}
+                                >
+                                  {workExp.endorsed
+                                    ? "Endorsed"
+                                    : "Not Yet Endorsed"}
+                                </p>
+                              </div>
                             </div>
-                            <div>
-                              <small>
-                                <em>
-                                  {workExp.startdate} - {workExp.enddate}
-                                </em>
-                              </small>
-                              <p
-                                style={{
-                                  color: workExp.endorsed
-                                    ? "#00d1b2"
-                                    : "yellow",
-                                  opacity: "0.7",
-                                }}
-                              >
-                                {workExp.endorsed
-                                  ? "Endorsed"
-                                  : "Not Yet Endorsed"}
-                              </p>
-                            </div>
+                          )
+                      )}
+                    </div>
+                  </Card.Content>
+                </Card>
+                <Card className="employee-des">
+                  <Card.Content>
+                    <Card.Header>Skills</Card.Header>
+                    <br />
+                    <div className="skill-height-container">
+                      {this.state.skills?.map((skill, index) =>
+                        skill.visible ? (
+                          <div>
+                            <SkillCard skill={skill} key={index} />
                           </div>
+                        ) : (
+                          <></>
                         )
-                    )}
-                  </div>
-                </Card.Content>
-              </Card>
-              <Card className="employee-des">
-                <Card.Content>
-                  <Card.Header>Skills</Card.Header>
-                  <br />
-                  <div className="skill-height-container">
-                    {this.state.skills?.map((skill, index) =>
-                      skill.visible ? (
-                        <div>
-                          <SkillCard skill={skill} key={index} />
-                        </div>
-                      ) : (
-                        <></>
-                      )
-                    )}
-                  </div>
-                </Card.Content>
-              </Card>
-            </Grid.Column>
-          </Grid.Row>
-        </Grid>
-      </div>
+                      )}
+                    </div>
+                  </Card.Content>
+                </Card>
+              </Grid.Column>
+            </Grid.Row>
+          </Grid>
+        </div>
+      </>
     );
   }
 }
