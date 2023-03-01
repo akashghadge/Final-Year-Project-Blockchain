@@ -138,7 +138,7 @@ export default class UpdateProfile extends Component {
         visible: certi[4],
         isScored: certi[5],
         certificate_type: certi[6],
-        _certificate_url : certi[7]
+        _certificate_url: certi[7]
       });
       return;
     });
@@ -400,31 +400,36 @@ export default class UpdateProfile extends Component {
                             ) : (
                               <div
                                 className="endorsement-req-button"
-                                onClick={() => this.reqCertiEndorsement(certi)}
-                              >
+                                onClick={() => this.reqCertiEndorsement(certi)}>
                                 Request Endorsement
                               </div>
                             )}
                           </p>
                         </div>
                         <div>
-                          <div style={{ width: "100px" }}>
-                            <CircularProgressbar
-                              value={certi.score}
-                              text={`Score - ${certi.score}%`}
-                              strokeWidth="5"
-                              styles={buildStyles({
-                                strokeLinecap: "round",
-                                textSize: "12px",
-                                pathTransitionDuration: 1,
-                                pathColor: `rgba(255,255,255, ${certi.score / 100
-                                  })`,
-                                textColor: "#c5c6c7",
-                                trailColor: "#393b3fa6",
-                                backgroundColor: "#c5c6c7",
-                              })}
-                            />
-                          </div>
+                          {
+                            certi.isScored ?
+                              <>
+                                <div style={{ width: "100px" }}>
+                                  <CircularProgressbar
+                                    value={certi.score}
+                                    text={`Score - ${certi.score}%`}
+                                    strokeWidth="5"
+                                    styles={buildStyles({
+                                      strokeLinecap: "round",
+                                      textSize: "12px",
+                                      pathTransitionDuration: 1,
+                                      pathColor: `rgba(255,255,255, ${certi.score / 100
+                                        })`,
+                                      textColor: "#c5c6c7",
+                                      trailColor: "#393b3fa6",
+                                      backgroundColor: "#c5c6c7",
+                                    })}
+                                  />
+                                </div>
+                              </> :
+                              <p>NA</p>
+                          }
                         </div>
                       </div>
                     ))}

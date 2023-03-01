@@ -38,13 +38,16 @@ export default class GetCertificationModal extends Component {
     ]
   };
   handleSubmit = async (e) => {
-    const { name, organization, score, certificateImage, isScoreInput, selectCourse } = this.state;
+    let { name, organization, score, certificateImage, isScoreInput, selectCourse } = this.state;
     if (!name || !organization || (isScoreInput && !(score >= 1 && score <= 100)) || !certificateImage || !selectCourse) {
       toast.error("Please enter all the fields.");
       return;
     }
     this.setState({ loading: true });
     let certificate_url = "";
+    if (!isScoreInput) {
+      score = 0;
+    }
     try {
       certificate_url = await getCloudinaryUrl(certificateImage);
     }
