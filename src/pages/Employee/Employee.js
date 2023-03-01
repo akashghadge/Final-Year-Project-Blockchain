@@ -24,7 +24,8 @@ export default class EmployeePage extends Component {
     loadcomp: false,
     codeforces_username: "darshanahire",
     isOpenGenerateCertificateModal: false,
-    selectedCertificate: {}
+    selectedCertificate: {},
+    isCertificateModal: true
   };
 
   componentDidMount = async () => {
@@ -158,8 +159,9 @@ export default class EmployeePage extends Component {
     this.setState({ workExps: newworkExps });
   };
 
-  openGenerateCertificateModal = (d) => {
+  openGenerateCertificateModal = (type, d) => {
     this.setState({ selectedCertificate: d });
+    this.setState({ isCertificateModal: !type })
     this.setState({ isOpenGenerateCertificateModal: !this.state.isOpenGenerateCertificateModal });
   }
   closeGenerateCertificateModal = (d) => {
@@ -175,6 +177,7 @@ export default class EmployeePage extends Component {
           closeModal={this.closeGenerateCertificateModal}
           certificateDetails={this.state.selectedCertificate}
           employee={this.state.employeedata}
+          isCertificateModal={this.state.isCertificateModal}
         />
         <div className="container-xl employeeProfile">
           <Grid>
@@ -242,7 +245,7 @@ export default class EmployeePage extends Component {
                                     ? "Endorsed"
                                     : "Not Yet Endorsed"}
                                 </p>
-                                <Button onClick={this.openGenerateCertificateModal.bind(this, certi)}>
+                                <Button onClick={this.openGenerateCertificateModal.bind(this, 0, certi)}>
                                   Show Certificate
                                 </Button>
                               </div>
@@ -279,33 +282,38 @@ export default class EmployeePage extends Component {
                       {this.state.workExps?.map(
                         (workExp, index) =>
                           workExp.visible && (
-                            <div className="education-design" key={index}>
-                              <div style={{ color: "#c5c6c7" }}>
-                                <p>{workExp.role}</p>
-                                <small style={{ wordBreak: "break-word" }}>
-                                  {workExp.organization}
-                                </small>
+                            <>
+                              <div className="education-design" key={index}>
+                                <div style={{ color: "#c5c6c7" }}>
+                                  <p>{workExp.role}</p>
+                                  <small style={{ wordBreak: "break-word" }}>
+                                    {workExp.organization}
+                                  </small>
+                                </div>
+                                <div>
+                                  <small>
+                                    <em>
+                                      {workExp.startdate} - {workExp.enddate}
+                                    </em>
+                                  </small>
+                                  <p
+                                    style={{
+                                      color: workExp.endorsed
+                                        ? "#00d1b2"
+                                        : "yellow",
+                                      opacity: "0.7",
+                                    }}
+                                  >
+                                    {workExp.endorsed
+                                      ? "Endorsed"
+                                      : "Not Yet Endorsed"}
+                                  </p>
+                                </div>
                               </div>
-                              <div>
-                                <small>
-                                  <em>
-                                    {workExp.startdate} - {workExp.enddate}
-                                  </em>
-                                </small>
-                                <p
-                                  style={{
-                                    color: workExp.endorsed
-                                      ? "#00d1b2"
-                                      : "yellow",
-                                    opacity: "0.7",
-                                  }}
-                                >
-                                  {workExp.endorsed
-                                    ? "Endorsed"
-                                    : "Not Yet Endorsed"}
-                                </p>
-                              </div>
-                            </div>
+                              <Button className="ml-2" onClick={this.openGenerateCertificateModal.bind(this, 1, workExp)}>
+                                Show Work Exp
+                              </Button>
+                            </>
                           )
                       )}
                     </div>
