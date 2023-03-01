@@ -23,6 +23,7 @@ import Notifications from "./pages/NoRole/Notifications";
 import NotificationsAdmin from "./pages/Admin/Notifications";
 import NotificationsEmployee from "./pages/Employee/Notifications";
 import NotificationsOrg from "./pages/OrganizationEndorser/Notifications";
+import PublicEmployee from "./pages/PublicEmployee/PublicEmployee"
 import LoadComp from "./components/LoadComp";
 
 function App() {
@@ -125,6 +126,7 @@ function App() {
         <Route path="/" exact component={Home} />
         <Route path="/no-role" exact component={NoRole} />
         <Route path="/notifications" exact component={Notifications} />
+        <Route path="/employee-public/:account" exact component={PublicEmployee} />
       </Switch>
     );
   };
