@@ -1,9 +1,11 @@
 import React, { Component } from "react";
+import { toast } from "react-toastify";
 import { withRouter } from "react-router-dom";
 import { Button, Card, Dropdown, Form, Message } from "semantic-ui-react";
 import "./NoRole.css";
 import { messageAdmin } from "../../firebase/api.js";
-
+import UploadImageModal from "../../components/UploadImageModal"
+import getCloudinaryUrl from "../../components/Cloudinary";
 class NoRole extends Component {
   state = {
     name: "",
@@ -13,6 +15,9 @@ class NoRole extends Component {
     loading: false,
     errorMessage: "",
     message: "",
+    isOrg:false,
+    imageUploadModal: false,
+    orgLogo: null,
   };
 
   roleOptions = [
@@ -34,8 +39,15 @@ class NoRole extends Component {
   ];
 
   handleDropdownSelect = (e, data) => {
+    if(data.value === "2") this.setState({isOrg:true});
+    else this.setState({isOrg:false});
     this.setState({ role: data.value });
   };
+
+  uploadSubmitImage = (d) => {
+    this.setState({ orgLogo: d });
+    this.setState({ imageUploadModal: false });
+  }
 
   handleChange = (e) => {
     e.preventDefault();
@@ -44,14 +56,29 @@ class NoRole extends Component {
     });
   };
 
+  closeImageUploadModal = () => {
+    this.setState({ imageUploadModal: false });
+  };
+
   handleSubmit = async (e) => {
     e.preventDefault();
     this.setState({ loading: true });
+    let logo_url = null;
+    if(this.state.orgLogo != null) { 
+      try {
+        logo_url = await getCloudinaryUrl(this.state.orgLogo);
+      }
+      catch (err) {
+        toast.error("Logo Upload fails");
+        return;
+      }
+    }
     const info = {
       name: this.state.name,
       description: this.state.description,
       role: this.state.role,
       location: this.state.location,
+      orgLogo: logo_url
     };
     await messageAdmin(info, this.state.message);
     this.setState({
@@ -61,6 +88,7 @@ class NoRole extends Component {
       location: "",
       message: "",
       loading: false,
+      orgLogo:null
     });
   };
 
@@ -119,6 +147,19 @@ class NoRole extends Component {
                   options={this.roleOptions}
                   onChange={this.handleDropdownSelect}
                 />
+              </Form.Field>
+
+              <UploadImageModal
+                isOpen={this.state.imageUploadModal}
+                closeImageModal={this.closeImageUploadModal}
+                uploadSubmitImage={this.uploadSubmitImage}
+              />
+              <Form.Field className="text-center" hidden={!this.state.isOrg}>
+              <br />
+                <Button type="button"
+                  content="Upload Organization Logo"
+                  icon="image"
+                  onClick={() => this.setState({ imageUploadModal: true })} />
               </Form.Field>
               <br />
               <Form.Field className="form-inputs-admin">

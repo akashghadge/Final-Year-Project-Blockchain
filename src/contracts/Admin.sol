@@ -24,6 +24,7 @@ contract Admin {
     string memory Name,
     string memory Location,
     string memory Description,
+    string memory OrgLogo,
     uint256 Role
   ) public onlyOwner {
     if (Role == 1) {
@@ -42,7 +43,8 @@ contract Admin {
         EthAddress,
         Name,
         Location,
-        Description
+        Description,
+        OrgLogo
       );
       registeredOrganizationmap[EthAddress] = address(newOrganizationEndorser);
       registeredOrganization.push(EthAddress);

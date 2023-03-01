@@ -1,5 +1,7 @@
 import React, { Component } from "react";
 import { withRouter } from "react-router-dom";
+import UploadImageModal from "../../components/UploadImageModal"
+import getCloudinaryUrl from "../../components/Cloudinary";
 import {
   Button,
   Card,
@@ -23,6 +25,9 @@ class CreateUser extends Component {
     loading: false,
     errorMessage: "",
     scanQR: false,
+    isOrg:false,
+    imageUploadModal: false,
+    orgLogo: null,
   };
 
   roleOptions = [
@@ -44,8 +49,15 @@ class CreateUser extends Component {
   ];
 
   handleDropdownSelect = (e, data) => {
+    if(data.value === "2") this.setState({isOrg:true});
+    else this.setState({isOrg:false});
     this.setState({ role: data.value });
   };
+
+  uploadSubmitImage = (d) => {
+    this.setState({ orgLogo: d });
+    this.setState({ imageUploadModal: false });
+  }
 
   handleChange = (e) => {
     e.preventDefault();
@@ -54,8 +66,23 @@ class CreateUser extends Component {
     });
   };
 
+  closeImageUploadModal = () => {
+    this.setState({ imageUploadModal: false });
+  };
+
   handleSubmit = async (e) => {
     e.preventDefault();
+
+    let OrgLogo = null;
+    if(this.state.orgLogo != null) { 
+      try {
+        OrgLogo = await getCloudinaryUrl(this.state.orgLogo);
+      }
+      catch (err) {
+        toast.error("Logo Upload fails");
+        return;
+      }
+    }
     const { ethAddress, name, location, role, description } = this.state;
     if (!name || !location || !description || !role || !ethAddress) {
       toast.error("Please fill all the fields!!");
@@ -79,7 +106,7 @@ class CreateUser extends Component {
       }
       try {
         await admin.methods
-          .registerUser(ethAddress, name, location, description, role)
+          .registerUser(ethAddress, name, location, description, OrgLogo, role)
           .send({ from: accounts[0] });
         toast.success("New user registered succressfully!!!!");
         this.props.history.push(
@@ -185,6 +212,19 @@ class CreateUser extends Component {
                     onChange={this.handleDropdownSelect}
                   />
                 </Form.Field>
+                
+                <UploadImageModal
+                isOpen={this.state.imageUploadModal}
+                closeImageModal={this.closeImageUploadModal}
+                uploadSubmitImage={this.uploadSubmitImage}
+              />
+              <Form.Field className="text-center" hidden={!this.state.isOrg}>
+              <br />
+                <Button type="button"
+                  content="Upload Organization Logo"
+                  icon="image"
+                  onClick={() => this.setState({ imageUploadModal: true })} />
+              </Form.Field>
                 <br />
                 <Message
                   error

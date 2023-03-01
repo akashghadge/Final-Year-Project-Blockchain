@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import "./OrgEndCard.css";
 import OrgEnd from "../abis/OrganizationEndorser.json";
-import { Card } from "semantic-ui-react";
+import { Card, Image} from "semantic-ui-react";
 
 export default class OrgEndCard extends Component {
   state = {
@@ -24,6 +24,7 @@ export default class OrgEndCard extends Component {
       name: orgEndData[0],
       location: orgEndData[2],
       description: orgEndData[3],
+      OrgLogo: orgEndData[4]
     };
 
     const employeeCount = await OrgEndContract.methods.totalEmployees().call();
@@ -47,6 +48,18 @@ export default class OrgEndCard extends Component {
             <small>{this.state.orgEndInfo?.ethAddress}</small>
           </Card.Header>
           <br></br>
+          <div>
+            <p>
+              <em>Organization Logo : </em>
+              <Image
+              style={{"margin-left":"50px"}}
+                src={this.state.orgEndInfo?.OrgLogo}
+                width="100px"
+                rounded
+                />
+            </p>
+          </div>
+          <br />
           <div>
             <p>
               <em>Location : </em>
