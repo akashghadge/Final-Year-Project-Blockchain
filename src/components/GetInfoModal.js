@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Button, Header, Modal, Table,Image } from "semantic-ui-react";
+import { Button, Header, Modal, Table, Image } from "semantic-ui-react";
 import "./Modals.css";
 import Admin from "../abis/Admin.json";
 import Employee from "../abis/Employee.json";
@@ -13,8 +13,8 @@ class GetInfoModal extends Component {
 
   createUser = async (e) => {
     e.preventDefault();
-    const { ethAddress, name, location, role, description} = this.props.info;
-    const OrgLogo = this.props.info ? this.props.info.orgLogo : "";
+    const { ethAddress, name, location, role, description } = this.props.info;
+    let OrgLogo = this.props.info ? this.props.info.orgLogo : "";
     if (!name || !location || !description || !role || !ethAddress) {
       toast.error("Please fill all the fields!!");
       return;
@@ -36,6 +36,8 @@ class GetInfoModal extends Component {
         return;
       }
       try {
+        if (OrgLogo === null)
+          OrgLogo = "";
         await admin.methods
           .registerUser(ethAddress, name, location, description, OrgLogo, role)
           .send({ from: accounts[0] });
@@ -51,7 +53,7 @@ class GetInfoModal extends Component {
   };
 
   endorseEmployee = async (info) => {
-    const { req } = info;   
+    const { req } = info;
     var section = -1;
     if (req === "Education Endorsement Request") section = 1;
     else if (req === "Certification Endorsement Request") section = 2;
@@ -179,20 +181,20 @@ class GetInfoModal extends Component {
                           <p>{this.props.info?.certificate_type}</p>
                         </Table.Cell>
                       </Table.Row>
-                      
+
                       <Table.Row>
                         <Table.Cell>
                           <p style={{ fontWeight: "700" }}>Soft Copy</p>
                         </Table.Cell>
-                          <Button
-                            className="button-css"
-                            type="submit"
-                            color="green"
-                            icon="save"
-                            content="View Soft Copy of Cerificate"
-                            // loading={this.state.loading}
-                            onClick={() => {window.open(this.props.info?._certificate_url, '_blank');}}
-                          />
+                        <Button
+                          className="button-css"
+                          type="submit"
+                          color="green"
+                          icon="save"
+                          content="View Soft Copy of Cerificate"
+                          // loading={this.state.loading}
+                          onClick={() => { window.open(this.props.info?._certificate_url, '_blank'); }}
+                        />
                       </Table.Row>
 
 
@@ -292,20 +294,20 @@ class GetInfoModal extends Component {
                       <p>{this.props.info?.name}</p>
                     </Table.Cell>
                   </Table.Row>
-                  { this.props.info?.role === "2" ?
-                      <Table.Row>
-                        <Table.Cell>
-                          <p style={{ fontWeight: "700" }}>Org Logo</p>
-                        </Table.Cell>
-                        <Table.Cell>
-                            <Image
-                            src={this.props.info?.orgLogo}
-                            width="100px"
-                            rounded
-                            />
-                        </Table.Cell>
-                      </Table.Row>
-                  :<></>}
+                  {this.props.info?.role === "2" ?
+                    <Table.Row>
+                      <Table.Cell>
+                        <p style={{ fontWeight: "700" }}>Org Logo</p>
+                      </Table.Cell>
+                      <Table.Cell>
+                        <Image
+                          src={this.props.info?.orgLogo}
+                          width="100px"
+                          rounded
+                        />
+                      </Table.Cell>
+                    </Table.Row>
+                    : <></>}
                   <Table.Row>
                     <Table.Cell>
                       <p style={{ fontWeight: "700" }}>Eth Address</p>
