@@ -101,7 +101,7 @@ export default class ChatBody extends Component {
           closeInfoModal={this.closeInfoModal}
           info={
             this.state.chats && this.state.chats.length >= 1
-              ? this.state.chats[this.state.chats.length - 1].info
+              ? this.state.chats[0].info
               : {}
           }
           admin={this.props.admin}
