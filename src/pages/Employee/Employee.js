@@ -245,7 +245,7 @@ export default class EmployeePage extends Component {
                                     ? "Endorsed"
                                     : "Not Yet Endorsed"}
                                 </p>
-                                <Button onClick={this.openGenerateCertificateModal.bind(this, 0, certi)}>
+                                <Button onClick={this.openGenerateCertificateModal.bind(this, 0, certi)} disabled={!certi.endorsed}>
                                   Show Certificate
                                 </Button>
                               </div>
@@ -310,7 +310,7 @@ export default class EmployeePage extends Component {
                                   </p>
                                 </div>
                               </div>
-                              <Button className="ml-2" onClick={this.openGenerateCertificateModal.bind(this, 1, workExp)}>
+                              <Button className="ml-2" onClick={this.openGenerateCertificateModal.bind(this, 1, workExp)} disabled={!workExp.endorsed}>
                                 Show Work Exp
                               </Button>
                             </>
