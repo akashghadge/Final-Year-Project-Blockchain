@@ -40,6 +40,16 @@ class Navbar extends Component {
     }
   };
 
+  handleKeyPress = (e) => {
+    e.preventDefault();
+    if (e.key === "Enter" && e.target.value != ""){
+      this.props.history.push(
+        `/employee-public/${e.target.value}`
+      );
+      e.target.value = ""
+      // window.location.reload(false);
+    };
+  };
   handleItemClick = (e, { name }) => this.setState({ activeItem: name });
 
   closeQRModal = () => {
@@ -237,7 +247,9 @@ class Navbar extends Component {
                       <label class="form-control header-search-wrapper input-sm p-0 header-search-wrapper-jump-to position-relative d-flex flex-justify-between flex-items-center">
                         <input type="text"
                           class="form-control js-site-search-focus header-search-input jump-to-field js-jump-to-field"
-                          placeholder="Type here to search"/>
+                          placeholder="Type here to search Employee"
+                          onKeyPress={this.handleKeyPress}
+                          />
                       </label>
                     </form>
             </Menu>
