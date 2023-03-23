@@ -56,12 +56,15 @@ function App() {
       toast.error("The Admin Contract does not exist on this network!");
     }
   };
-
+  let [accountChange, setAccountChange] = useState(0);
   useEffect(() => {
     const func = async () => {
       setisMeta(true);
       setloadcomp(true);
       if (window.ethereum) {
+        window.ethereum.on('accountsChanged', function (accounts) {
+          setAccountChange(accountChange + 1);
+        });
         await window.ethereum.request({
           method: "eth_requestAccounts",
         });
@@ -79,7 +82,7 @@ function App() {
     return () => {
       //
     };
-  }, []);
+  }, [accountChange]);
 
   const adminRoutes = () => {
     return (
@@ -159,12 +162,12 @@ function App() {
           </Container>
         </BrowserRouter>
       ) : (
-      <>
-      <BrowserRouter>
-        <Home/>
-        <MetaMaskGuide />
-        </BrowserRouter>
-      </>
+        <>
+          <BrowserRouter>
+            <Home />
+            <MetaMaskGuide />
+          </BrowserRouter>
+        </>
       )}
     </div>
   );
