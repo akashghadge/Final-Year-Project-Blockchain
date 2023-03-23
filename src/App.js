@@ -25,8 +25,10 @@ import NotificationsEmployee from "./pages/Employee/Notifications";
 import NotificationsOrg from "./pages/OrganizationEndorser/Notifications";
 import PublicEmployee from "./pages/PublicEmployee/PublicEmployee"
 import LoadComp from "./components/LoadComp";
+import { useHistory } from "react-router-dom";
 
 function App() {
+  const history = useHistory();
   const [isMeta, setisMeta] = useState(false);
   const [isEmployee, setisEmployee] = useState(false);
   const [account, setaccount] = useState("");
@@ -63,6 +65,7 @@ function App() {
       setloadcomp(true);
       if (window.ethereum) {
         window.ethereum.on('accountsChanged', function (accounts) {
+          history.push("/");
           setAccountChange(accountChange + 1);
         });
         await window.ethereum.request({
@@ -146,7 +149,7 @@ function App() {
       {loadcomp ? (
         <LoadComp />
       ) : isMeta && account !== "" ? (
-        <BrowserRouter>
+        <>
           <Navbar />
           <Container>
             <ToastContainer />
@@ -160,13 +163,11 @@ function App() {
               {renderRoutes()}
             </Switch>
           </Container>
-        </BrowserRouter>
+        </>
       ) : (
         <>
-          <BrowserRouter>
-            <Home />
-            <MetaMaskGuide />
-          </BrowserRouter>
+          <Home />
+          <MetaMaskGuide />
         </>
       )}
     </div>
