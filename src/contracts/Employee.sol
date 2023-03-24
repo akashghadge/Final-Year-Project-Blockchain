@@ -71,10 +71,10 @@ contract Employee {
     mapping(string => skillInfo) skillmap;
     string[] skills;
 
-    function addSkill(string memory _name, string memory _experience)
-        public
-        OnlyEmployee
-    {
+    function addSkill(
+        string memory _name,
+        string memory _experience
+    ) public OnlyEmployee {
         skillInfo memory employeeSkillSet;
         employeeSkillSet.name = _name;
         employeeSkillSet.experience = _experience;
@@ -99,7 +99,9 @@ contract Employee {
         skillmap[_name].review = _review;
     }
 
-    function getSkillByName(string memory _name)
+    function getSkillByName(
+        string memory _name
+    )
         private
         view
         returns (
@@ -127,7 +129,9 @@ contract Employee {
         return skills.length;
     }
 
-    function getSkillByIndex(uint256 _index)
+    function getSkillByIndex(
+        uint256 _index
+    )
         public
         view
         returns (
@@ -189,7 +193,9 @@ contract Employee {
         certificationmap[_name].endorsed = true;
     }
 
-    function getCertificationByName(string memory _name)
+    function getCertificationByName(
+        string memory _name
+    )
         private
         view
         returns (
@@ -220,7 +226,9 @@ contract Employee {
         return certifications.length;
     }
 
-    function getCertificationByIndex(uint256 _index)
+    function getCertificationByIndex(
+        uint256 _index
+    )
         public
         view
         returns (
@@ -280,7 +288,9 @@ contract Employee {
         workexpmap[msg.sender].endorsed = true;
     }
 
-    function getWorkExpByAddress(address _organization)
+    function getWorkExpByAddress(
+        address _organization
+    )
         private
         view
         returns (
@@ -308,7 +318,9 @@ contract Employee {
         return workexps.length;
     }
 
-    function getWorkExpByIndex(uint256 _index)
+    function getWorkExpByIndex(
+        uint256 _index
+    )
         public
         view
         returns (
@@ -325,15 +337,14 @@ contract Employee {
     }
 
     function deleteWorkExp(address org) public OnlyEmployee {
-        workexpmap[org].visible = false;
+        workexpmap[org].visible = !workexpmap[org].visible;
     }
 
     /********************************************************************Codeforces Section********************************************************************/
 
-    function setCodeforcesUsername(string memory _newUsername)
-        public
-        OnlyEmployee
-    {
+    function setCodeforcesUsername(
+        string memory _newUsername
+    ) public OnlyEmployee {
         codeforces_username = _newUsername;
     }
 
