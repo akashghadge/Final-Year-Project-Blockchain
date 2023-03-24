@@ -35,10 +35,6 @@ export default class Endorse extends Component {
       toast.error("Please enter all the fields.");
       return;
     }
-    if (section === "2" && !certification_name) {
-      toast.error("Please enter all the fields.");
-      return;
-    }
     e.preventDefault();
     const web3 = window.web3;
     const networkId = await web3.eth.net.getId();
@@ -54,7 +50,7 @@ export default class Endorse extends Component {
         employeeContractAddress
       );
       try {
-        if (section === 2) {
+        if (section === "2") {
           await EmployeeContract?.methods
             ?.endorseWorkExp()
             .send({ from: accounts[0] });
