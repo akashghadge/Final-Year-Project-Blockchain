@@ -47,8 +47,7 @@ class Navbar extends Component {
         `/employee-public/${e.target.value}`
       );
       e.target.value = ""
-      // window.location.reload(false);
-    };
+    }
   };
   handleItemClick = (e, { name }) => this.setState({ activeItem: name });
 

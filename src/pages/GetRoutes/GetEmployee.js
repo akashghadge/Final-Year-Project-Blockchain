@@ -144,7 +144,7 @@ export default class GetEmployee extends Component {
     return this.state.loadcomp ? (
       <LoadComp />
     ) : (
-      <div>
+      <div className="container-xl employeeProfile">
         <Grid>
           <Grid.Row>
             <Grid.Column width={6}>

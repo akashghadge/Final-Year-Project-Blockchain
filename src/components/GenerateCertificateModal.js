@@ -4,6 +4,8 @@ import { Button, Header, Modal } from "semantic-ui-react";
 import "./GenerateCertificate.css"
 import GetOrganizationByName from "./GetOrganizationByName";
 function GenerateCertificateModal(props) {
+    console.log(props);
+    
     const [orgData, setOrgData] = useState({});
     useEffect(async () => {
         try {
@@ -20,7 +22,7 @@ function GenerateCertificateModal(props) {
         <Modal size="large" className="modal-des" open={props?.isOpen}>
             <Modal.Content className="modal-content">
                 <div className="container pm-certificate-container">
-                    <div className="outer-border"></div>
+                    <div className="outer-border" style={props.certificateDetails.isScored ? { background:"#618597"} : {background:"#964B00"}} ></div>
                     <div className="inner-border"></div>
                     <div className="pm-certificate-border col-xs-12">
                         <div className="row pm-certificate-header">
@@ -53,7 +55,7 @@ function GenerateCertificateModal(props) {
                                                             <div className="row">
                                                                 <div className="col-xs-2"></div>
                                                                 <div className="pm-earned col-xs-8 text-center">
-                                                                    <span className="pm-earned-text padding-0 block cursive">has earned</span>
+                                                                    <span className="pm-earned-text padding-0 block cursive font25 bold">has earned</span>
                                                                     <span className="pm-credits-text block bold sans">{props.certificateDetails.score}</span>
                                                                 </div>
                                                                 <div className="col-xs-2"></div>
@@ -66,7 +68,7 @@ function GenerateCertificateModal(props) {
                                                 <div className="row">
                                                     <div className="col-xs-2"></div>
                                                     <div className="pm-course-title col-xs-8 text-center">
-                                                        <span className="pm-earned-text block cursive">while completing the training course entitled</span>
+                                                        <span className="pm-earned-text block cursive font25 bold">while completing the training course entitled</span>
                                                     </div>
                                                     <div className="col-xs-2"></div>
                                                 </div>
@@ -86,7 +88,7 @@ function GenerateCertificateModal(props) {
                                                 <div className="row">
                                                     <div className="col-xs-2"></div>
                                                     <div className="pm-earned col-xs-8 text-center">
-                                                        <span className="pm-earned-text padding-0 block cursive">Worked for the role of</span>
+                                                        <span className="pm-earned-text padding-0 block cursive bold font25">Worked for the role of</span>
                                                         <span className="pm-credits-text block bold sans">{props.certificateDetails.role}</span>
                                                     </div>
                                                     <div className="col-xs-2"></div>
@@ -97,7 +99,7 @@ function GenerateCertificateModal(props) {
                                                 <div className="row">
                                                     <div className="col-xs-2"></div>
                                                     <div className="pm-course-title col-xs-8 text-center">
-                                                        <span className="pm-earned-text block cursive">Duration of</span>
+                                                        <span className="pm-earned-text block cursive font25 bold">Duration of</span>
                                                     </div>
                                                     <div className="col-xs-2"></div>
                                                 </div>
