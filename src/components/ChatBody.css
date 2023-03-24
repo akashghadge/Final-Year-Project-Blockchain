@@ -16,3 +16,16 @@
   box-shadow: inset 0 0 15px #c5c6c7 !important;
   transform: scale(1.03, 1.03);
 }
+
+.justify-content-end{
+  justify-content: end;
+}
+.justify-content-center{
+  justify-content: start;
+}
+.endrose-btn{
+  font-weight: 600;
+  }
+.endrose-btn:hover{
+font-weight: 300 !important;
+}

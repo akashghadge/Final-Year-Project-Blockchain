@@ -44,7 +44,7 @@ export default class Notifications extends Component {
       <div className="notifications">
         <Grid style={{ height: "100%", width: "100%" }}>
           <Grid.Row>
-            <Grid.Column width={6} style={{ borderRight: "1px solid #c5c6c7" }}>
+            <Grid.Column width={5} style={{ borderRight: "1px solid #c5c6c7" }}>
               <div className="sidechat-container">
                 <Table basic="very" celled collapsing>
                   <Table.Header>
@@ -104,7 +104,7 @@ export default class Notifications extends Component {
                 </Table>
               </div>
             </Grid.Column>
-            <Grid.Column width={10}>
+            <Grid.Column width={11}>
               {this.state.curr.ethAddress ? (
                 <ChatBody
                   name={this.state.curr.name}

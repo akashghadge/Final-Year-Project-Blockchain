@@ -38,6 +38,7 @@ export default class ChatBody extends Component {
     message: "",
     account: "",
     infomaodal: false,
+    ind : 0
   };
 
   componentDidMount = async () => {
@@ -101,7 +102,7 @@ export default class ChatBody extends Component {
           closeInfoModal={this.closeInfoModal}
           info={
             this.state.chats && this.state.chats.length >= 1
-              ? this.state.chats[0].info
+              ? this.state.chats[this.state.ind].info
               : {}
           }
           admin={this.props.admin}
@@ -115,7 +116,6 @@ export default class ChatBody extends Component {
               justifyContent: "space-between",
               cursor: "pointer",
             }}
-            onClick={() => this.setState({ infomaodal: true })}
           >
             <div>
               <Image
@@ -168,7 +168,7 @@ export default class ChatBody extends Component {
                 >
                   {chat.sender !== "none" && (
                     <>
-                      <small>
+                      <div>
                         <b
                           style={{
                             color:
@@ -176,22 +176,19 @@ export default class ChatBody extends Component {
                                 ? "black"
                                 : "lightgray",
                             fontSize: "10px",
-                            float: "left",
                             marginBottom: "3px",
                             wordBreak: "break-word",
                           }}
                         >
                           {chat.sender}
                         </b>
-                      </small>
-                      <br></br>
+                      </div>
                     </>
                   )}
-                  <span style={{ float: "left" }}>{chat.message}</span>
-                  <br></br>
+                  <div style={{margin:"5px auto" }}>{chat.message}</div>
+                  <div className="d-flex justify-content-end">
                   <small
                     style={{
-                      float: "right",
                       color:
                         this.state.account !== chat.sender
                           ? "black"
@@ -201,6 +198,12 @@ export default class ChatBody extends Component {
                   >
                     {new Date(chat.timeStamp?.toDate()).toUTCString()}
                   </small>
+                  </div>
+                  <div className="endrose-btn d-flex justify-content-center" style={{ color: "green",cursor:"pointer"}} 
+                    onClick={() => this.setState({ infomaodal: true,ind :index })}>
+                    {chat.message[0].toLowerCase()=='a' ? "Add Me..." : "Endorse Me..."
+                    }
+                    </div>
                 </p>
               );
             })}
