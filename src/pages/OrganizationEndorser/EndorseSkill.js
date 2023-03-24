@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Button, Card, Form, Input, Message } from "semantic-ui-react";
+import { Button, Card, Form, Input, Message, Dropdown } from "semantic-ui-react";
 import "./EndorsePage.css";
 import Admin from "../../abis/Admin.json";
 import Employee from "../../abis/Employee.json";
@@ -16,6 +16,53 @@ export default class EndorseSkil extends Component {
     skillError: "",
     skillLoading: false,
     scanQR: false,
+    skills: []
+  };
+  fetchSkills = async () => {
+    const { employee_address_skill } = this.state;
+    const web3 = window.web3;
+    const networkId = await web3.eth.net.getId();
+    const AdminData = await Admin.networks[networkId];
+    const SkillData = await Skills.networks[networkId];
+    if (!web3.utils.isAddress(employee_address_skill)) {
+      this.setState({ skills: [] })
+      return;
+    }
+    if (AdminData && SkillData) {
+      const admin = await new web3.eth.Contract(Admin.abi, AdminData.address);
+      const employeeContractAddress = await admin?.methods
+        ?.getEmployeeContractByAddress(employee_address_skill)
+        .call();
+      const EmployeeContract = await new web3.eth.Contract(
+        Employee.abi,
+        employeeContractAddress
+      );
+      this.getSkills(EmployeeContract);
+    } else {
+      toast.error("The Admin Contract does not exist on this network!");
+    }
+  }
+
+  getSkills = async (EmployeeContract) => {
+    const skillCount = await EmployeeContract?.methods?.getSkillCount().call();
+    const skills = await Promise.all(
+      Array(parseInt(skillCount))
+        .fill()
+        .map((ele, index) =>
+          EmployeeContract?.methods?.getSkillByIndex(index).call()
+        )
+    );
+    var newskills = [];
+    skills.forEach((certi) => {
+      newskills.push({
+        key: certi[0],
+        text: certi[0],
+        value: certi[0]
+      });
+      return;
+    });
+
+    this.setState({ skills: newskills });
   };
 
   handleChange = (e) => {
@@ -117,6 +164,7 @@ export default class EndorseSkil extends Component {
                         autoCorrect="off"
                         value={this.state.employee_address_skill}
                         onChange={this.handleChange}
+                        onBlur={this.fetchSkills}
                       />
                       <Button
                         type="button"
@@ -126,7 +174,10 @@ export default class EndorseSkil extends Component {
                       />
                     </Input>
                   </Form.Field>
-                  <Form.Field className="form-inputs">
+                  <Form.Field>
+                    <Dropdown onChange={(e, data) => { this.setState({ skill_name: data.value }) }} value={this.state.skill_name} placeholder="Select Skill" fluid selection options={this.state.skills} />
+                  </Form.Field>
+                  {/* <Form.Field className="form-inputs">
                     <input
                       id="skill_name"
                       placeholder="Skill Name"
@@ -135,7 +186,7 @@ export default class EndorseSkil extends Component {
                       value={this.state.skill_name}
                       onChange={this.handleChange}
                     />
-                  </Form.Field>
+                  </Form.Field> */}
                   <Form.Field className="form-inputs">
                     <input
                       id="skill_score"
