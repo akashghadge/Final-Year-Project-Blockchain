@@ -9,6 +9,7 @@ import { withRouter } from "react-router-dom";
 class GetInfoModal extends Component {
   state = {
     loading: false,
+    isOpenPhotoCopyCert: false,
   };
 
   createUser = async (e) => {
@@ -91,11 +92,15 @@ class GetInfoModal extends Component {
     this.props.closeInfoModal();
   };
 
+  OpenPhotoCopyCert = () => {
+    this.setState({ isOpenPhotoCopyCert: true })
+    this.props.closeInfoModal();
+  }
   render() {
     return (
       <>
-        {this.props.isEndorsementReq ? (
-          <Modal open={this.props.isOpen} size="tiny" className="modal-des">
+        {this.props.isEndorsementReq ? (this.props?.isOpen ?
+          <Modal open={this.props?.isOpen} size="tiny" className="modal-des">
             <Header
               className="modal-heading"
               icon="pencil"
@@ -193,7 +198,7 @@ class GetInfoModal extends Component {
                           icon="save"
                           content="View Soft Copy of Cerificate"
                           // loading={this.state.loading}
-                          onClick={() => { window.open(this.props.info?._certificate_url, '_blank'); }}
+                          onClick={() => this.OpenPhotoCopyCert()}
                         />
                       </Table.Row>
 
@@ -269,9 +274,29 @@ class GetInfoModal extends Component {
                 />
               )}
             </Modal.Actions>
+          </Modal> :
+          <Modal open={this.state.isOpenPhotoCopyCert} size="tiny" className="modal-des" >
+            <Header
+              className="modal-heading"
+              content={"Photo Copy of Requested Certificate"}
+              as="h3"
+            />
+            <Modal.Content className="modal-content d-flex" style={{ justifyContent: "center" }}>
+              <img src={this.props.info?._certificate_url} alt="" srcset="" />
+            </Modal.Content>
+            <Modal.Actions className="modal-actions">
+              <Button
+                className="close-button"
+                type="button"
+                color="red"
+                icon="times"
+                content="Close"
+                onClick={() => this.setState({ isOpenPhotoCopyCert: false })}
+              />
+            </Modal.Actions>
           </Modal>
         ) : (
-          <Modal open={this.props.isOpen} size="tiny" className="modal-des">
+          <Modal open={this.props?.isOpen} size="tiny" className="modal-des">
             <Header
               className="modal-heading"
               icon="pencil"

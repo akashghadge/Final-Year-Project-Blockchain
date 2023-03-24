@@ -18,7 +18,7 @@ function GenerateCertificateModal(props) {
     return (
 
         <Modal size="large" className="modal-des" open={props?.isOpen}>
-            <Modal.Content>
+            <Modal.Content className="modal-content">
                 <div className="container pm-certificate-container">
                     <div className="outer-border"></div>
                     <div className="inner-border"></div>

@@ -30,7 +30,8 @@
   position: relative;
   width: 800px;
   height: 600px;
-  background-color: #618597;
+  /* background-color: #618597; */
+
   padding: 30px;
   color: #333;
   font-family: "Open Sans", sans-serif;
@@ -45,6 +46,7 @@
   top: 50%;
   margin-top: -297px;
   border: 2px solid #fff;
+  background-color: #618597;
 }
 .pm-certificate-container .inner-border {
   width: 730px;
