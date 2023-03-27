@@ -21,19 +21,34 @@ export default class GetCertificationModal extends Component {
     selectCourse: "",
     courseOptions: [
       {
-        key: "course 1",
-        text: "course 1",
-        value: "course 1"
+        key: "Web Developer",
+        text: "Web Developer",
+        value: "Web Developer"
       },
       {
-        key: "course 2",
-        text: "course 2",
-        value: "course 2"
+        key: "Data structures",
+        text: "Data structures",
+        value: "Data structures"
       },
       {
-        key: "course 3",
-        text: "course 3",
-        value: "course 3"
+        key: "Algorithms",
+        text: "Algorithms",
+        value: "Algorithms"
+      },
+      {
+        key: "Cyber Security",
+        text: "Cyber Security",
+        value: "Cyber Security"
+      },
+      {
+        key: "Data scientist",
+        text: "Data scientist",
+        value: "Data scientist"
+      },
+      {
+        key: "Calculus",
+        text: "Calculus",
+        value: "Calculus"
       }
     ]
   };
