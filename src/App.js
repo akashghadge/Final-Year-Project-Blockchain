@@ -132,7 +132,6 @@ function App() {
         <Route path="/" exact component={Home} />
         <Route path="/no-role" exact component={NoRole} />
         <Route path="/notifications" exact component={Notifications} />
-        <Route path="/employee-public/:account" exact component={PublicEmployee} />
       </Switch>
     );
   };
@@ -159,6 +158,7 @@ function App() {
                 exact
                 component={GetEmployee}
               />
+              <Route path="/employee-public/:account" exact component={PublicEmployee} />
               <Route path="/getOrg/:orgAddress" exact component={GetOrg} />
               {renderRoutes()}
             </Switch>
