@@ -80,7 +80,7 @@ font-size: 20px !important;
   position: relative;
   left: 50%;
   margin-left: -325px;
-  top: 50px;
+  top: 30px;
   margin-top: 0;
 }
 
@@ -101,7 +101,8 @@ font-size: 20px !important;
   font-size: 20px;
 }
 .pm-certificate-container .pm-certificate-border .pm-earned {
-  margin: 15px 0 20px;
+  /* margin: 15px 0 20px; */
+  margin-top: 15px;
 }
 .pm-certificate-container .pm-certificate-border .pm-earned .pm-earned-text {
   font-size: 20px;
@@ -134,4 +135,9 @@ font-size: 20px !important;
 .custom-logo-container{
     display: flex;
     justify-content: center;
+}
+
+.certBackground{
+background-image: url('../img/cert1.png') !important;
+  background-size: contain;
 }
