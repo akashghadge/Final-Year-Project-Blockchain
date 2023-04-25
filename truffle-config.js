@@ -8,8 +8,12 @@ const seedPhrase = SEED_PHRASE;
 module.exports = {
   networks: {
       development: {
-        host: "127.0.0.1", // Localhost (default: none)
-        port: 9545, // Standard Ethereum port (default: none)
+        // host: "127.0.0.1", // Localhost (default: none)
+        // port: 9545, // Standard Ethereum port (default: none)
+        // provider: () => new HDWalletProvider(seedPhrase, 'http://127.0.0.1:9545'),
+        provider: function() {
+          return new HDWalletProvider(seedPhrase, 'http://127.0.0.1:9545');
+        },
         network_id: "*", // Any network (default: none,
       },
       goerli: {

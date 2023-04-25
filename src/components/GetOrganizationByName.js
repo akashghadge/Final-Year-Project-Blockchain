@@ -8,7 +8,7 @@ const GetOrganizationByName = (input) => {
                 const account = input;
                 const web3 = window.web3;
                 console.log(account);
-                if (!account || account === undefined || account === null || !web3.utils.isAddress(account)) {
+                if (!account || account === undefined || account === null || !web3?.utils.isAddress(account)) {
                     reject("No valid Address");
                     return;
                 }
