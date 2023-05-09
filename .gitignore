@@ -11,6 +11,7 @@ seed-phrase.js
 
 # production
 /build
+server.js
 
 # misc
 .DS_Store
