@@ -4,7 +4,7 @@ import { render, screen } from "@testing-library/react";
 import GenerateCertificateModal from "../GenerateCertificateModal";
 
 describe("GenerateCertificateModal Test Suit", () => {
-    
+
     test('Test for Employee Details', () => {
         const props = {
             "isOpen": true,
@@ -55,7 +55,7 @@ describe("GenerateCertificateModal Test Suit", () => {
             "isCertificateModal": true
         };
         render(<GenerateCertificateModal {...props} />);
-        const  certificate_type = screen.getByText("Data structures");
+        const certificate_type = screen.getByText("Data structures");
         expect(certificate_type).toBeInTheDocument();
     });
 
@@ -83,7 +83,7 @@ describe("GenerateCertificateModal Test Suit", () => {
             "isCertificateModal": true
         };
         render(<GenerateCertificateModal {...props} />);
-        const  certificate_type = screen.getByText("Data structures");
+        const certificate_type = screen.getByText("Data structures");
         expect(certificate_type).toBeInTheDocument();
     });
 
@@ -110,8 +110,13 @@ describe("GenerateCertificateModal Test Suit", () => {
             "isCertificateModal": true
         };
         render(<GenerateCertificateModal {...props} />);
-        const  certificate_type = screen.getByText("This Cerificate is awarded to");
+        const certificate_type = screen.getByText("This Cerificate is awarded to");
         expect(certificate_type).toBeInTheDocument();
     });
 
 })
+// turn off all warning
+beforeAll(() => {
+    jest.spyOn(console, 'log').mockImplementation(jest.fn());
+    jest.spyOn(console, 'debug').mockImplementation(jest.fn());
+});

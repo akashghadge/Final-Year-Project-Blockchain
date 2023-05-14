@@ -12,3 +12,10 @@ describe("Home Test Suit", () => {
         expect(buttonElement).toBeInTheDocument();
     });
 })
+
+// turn off all warning
+
+beforeAll(() => {
+    jest.spyOn(console, 'log').mockImplementation(jest.fn());
+    jest.spyOn(console, 'debug').mockImplementation(jest.fn());
+});
